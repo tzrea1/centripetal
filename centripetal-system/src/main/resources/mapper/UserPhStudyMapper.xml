@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyboys.system.mapper.UserPhStudyMapper">
+    
+    <resultMap type="UserPhStudy" id="UserPhStudyResult">
+        <result property="phStudyId"    column="ph_study_id"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectUserPhStudyVo">
+        select ph_study_id, user_id from cls_user_ph_study
+    </sql>
+
+    <select id="selectUserPhStudyList" parameterType="UserPhStudy" resultMap="UserPhStudyResult">
+        <include refid="selectUserPhStudyVo"/>
+        <where>
+            <if test="phStudyId != null "> and ph_study_id = #{phStudyId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <select id="selectUserPhStudyByPhStudyId" parameterType="Long" resultMap="UserPhStudyResult">
+        <include refid="selectUserPhStudyVo"/>
+        where ph_study_id = #{phStudyId}
+    </select>
+
+    <insert id="insertUserPhStudy" parameterType="UserPhStudy">
+        insert into cls_user_ph_study
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="phStudyId != null">ph_study_id,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="phStudyId != null">#{phStudyId},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserPhStudy" parameterType="UserPhStudy">
+        update cls_user_ph_study
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where ph_study_id = #{phStudyId}
+    </update>
+
+    <delete id="deleteUserPhStudyByPhStudyId" parameterType="Long">
+        delete from cls_user_ph_study where ph_study_id = #{phStudyId}
+    </delete>
+
+    <delete id="deleteUserPhStudyByPhStudyIds" parameterType="String">
+        delete from cls_user_ph_study where ph_study_id in
+        <foreach item="phStudyId" collection="array" open="(" separator="," close=")">
+            #{phStudyId}
+        </foreach>
+    </delete>
+</mapper>

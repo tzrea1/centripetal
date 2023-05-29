@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyboys.system.mapper.AuditorQuizAcitvityMapper">
+    
+    <resultMap type="AuditorQuizAcitvity" id="AuditorQuizAcitvityResult">
+        <result property="auditorId"    column="auditor_id"    />
+        <result property="quizActivityId"    column="quiz_activity_id"    />
+        <result property="auditTime"    column="audit_time"    />
+    </resultMap>
+
+    <sql id="selectAuditorQuizAcitvityVo">
+        select auditor_id, quiz_activity_id, audit_time from ams_auditor_quiz_activity
+    </sql>
+
+    <select id="selectAuditorQuizAcitvityList" parameterType="AuditorQuizAcitvity" resultMap="AuditorQuizAcitvityResult">
+        <include refid="selectAuditorQuizAcitvityVo"/>
+        <where>
+            <if test="auditorId != null "> and auditor_id = #{auditorId}</if>
+            <if test="quizActivityId != null "> and quiz_activity_id = #{quizActivityId}</if>
+            <if test="auditTime != null "> and DATE(audit_time) = #{auditTime}</if>
+        </where>
+    </select>
+
+    <select id="selectAuditorQuizAcitvityByAuditorId" resultMap="AuditorQuizAcitvityResult">
+        <include refid="selectAuditorQuizAcitvityVo"/>
+        <where>
+            <if test="auditorId != null "> and auditor_id = #{auditorId}</if>
+            <if test="quizActivityId != null "> and quiz_activity_id = #{quizActivityId}</if>
+        </where>
+    </select>
+
+    <insert id="insertAuditorQuizAcitvity" parameterType="AuditorQuizAcitvity">
+        insert into ams_auditor_quiz_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="auditorId != null">auditor_id,</if>
+            <if test="quizActivityId != null">quiz_activity_id,</if>
+            <if test="auditTime != null">audit_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="auditorId != null">#{auditorId},</if>
+            <if test="quizActivityId != null">#{quizActivityId},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAuditorQuizAcitvity" parameterType="AuditorQuizAcitvity">
+        update ams_auditor_quiz_activity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+        </trim>
+        where auditor_id = #{auditorId} and quiz_activity_id = #{quizActivityId}
+    </update>
+
+    <delete id="deleteAuditorQuizAcitvityByAuditorId" parameterType="Long">
+        delete from ams_auditor_quiz_activity where auditor_id = #{auditorId}
+    </delete>
+
+    <delete id="deleteAuditorQuizAcitvityByAuditorIds">
+        delete from ams_auditor_quiz_activity where
+        <foreach item="item" collection="list" separator="or">
+            (auditor_id = #{item.auditorId} and quiz_activity_id = #{item.quizActivityId})
+        </foreach>
+    </delete>
+</mapper>

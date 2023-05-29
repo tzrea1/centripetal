@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyboys.system.mapper.AuditorMapper">
+    
+    <resultMap type="Auditor" id="AuditorResult">
+        <result property="auditorId"    column="auditor_id"    />
+        <result property="realname"    column="realname"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="password"    column="password"    />
+        <result property="phone"    column="phone"    />
+    </resultMap>
+
+    <sql id="selectAuditorVo">
+        select auditor_id, realname, nickname, password, phone from auditor
+    </sql>
+
+    <select id="selectAuditorList" parameterType="Auditor" resultMap="AuditorResult">
+        <include refid="selectAuditorVo"/>
+        <where>  
+            <if test="realname != null  and realname != ''"> and realname like concat('%', #{realname}, '%')</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+        </where>
+    </select>
+    
+    <select id="selectAuditorByAuditorId" parameterType="Long" resultMap="AuditorResult">
+        <include refid="selectAuditorVo"/>
+        where auditor_id = #{auditorId}
+    </select>
+        
+    <insert id="insertAuditor" parameterType="Auditor">
+        insert into auditor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="auditorId != null">auditor_id,</if>
+            <if test="realname != null and realname != ''">realname,</if>
+            <if test="nickname != null and nickname != ''">nickname,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="auditorId != null">#{auditorId},</if>
+            <if test="realname != null and realname != ''">#{realname},</if>
+            <if test="nickname != null and nickname != ''">#{nickname},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAuditor" parameterType="Auditor">
+        update auditor
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="realname != null and realname != ''">realname = #{realname},</if>
+            <if test="nickname != null and nickname != ''">nickname = #{nickname},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+        </trim>
+        where auditor_id = #{auditorId}
+    </update>
+
+    <delete id="deleteAuditorByAuditorId" parameterType="Long">
+        delete from auditor where auditor_id = #{auditorId}
+    </delete>
+
+    <delete id="deleteAuditorByAuditorIds" parameterType="String">
+        delete from auditor where auditor_id in 
+        <foreach item="auditorId" collection="array" open="(" separator="," close=")">
+            #{auditorId}
+        </foreach>
+    </delete>
+</mapper>

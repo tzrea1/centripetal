@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyboys.system.mapper.QuizActivityMapper">
+    
+    <resultMap type="QuizActivity" id="QuizActivityResult">
+        <result property="quizActivityId"    column="quiz_activity_id"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="title"    column="title"    />
+        <result property="timeLimit"    column="time_limit"    />
+        <result property="discription"    column="discription"    />
+        <result property="totalPoints"    column="total_points"    />
+        <result property="state"    column="state"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="acceptanceLine"    column="acceptance_line"    />
+        <result property="quizNum"    column="quiz_num"    />
+    </resultMap>
+
+    <resultMap id="QuizActivityQuestionResult" type="QuizActivity" extends="QuizActivityResult">
+        <collection property="questionList" notNullColumn="sub_question_id" javaType="java.util.List" resultMap="QuestionResult" />
+    </resultMap>
+
+    <resultMap type="Question" id="QuestionResult">
+        <result property="questionId"    column="sub_question_id"    />
+        <result property="content"    column="sub_content"    />
+        <result property="questionScore"    column="sub_question_score"    />
+        <result property="correctAnswer"    column="sub_correct_answer"    />
+        <result property="options"    column="sub_options"    />
+        <result property="quizActivityId"    column="sub_quiz_activity_id"    />
+        <result property="questionType"    column="sub_question_type"    />
+    </resultMap>
+
+    <sql id="selectQuizActivityVo">
+        select quiz_activity_id, creator_id, title, time_limit, discription, total_points, state, start_time, end_time, acceptance_line, quiz_num from qas_quiz_activity
+    </sql>
+
+    <select id="selectQuizActivityList" parameterType="QuizActivity" resultMap="QuizActivityResult">
+        <include refid="selectQuizActivityVo"/>
+        <where>
+            <if test="creatorId != null "> and creator_id = #{creatorId}</if>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="timeLimit != null "> and time_limit = #{timeLimit}</if>
+            <if test="discription != null  and discription != ''"> and discription = #{discription}</if>
+            <if test="totalPoints != null "> and total_points = #{totalPoints}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="startTime != null "> and DATE(start_time) = #{startTime}</if>
+            <if test="endTime != null "> and DATE(end_time) = #{endTime}</if>
+            <if test="acceptanceLine != null "> and acceptance_line = #{acceptanceLine}</if>
+            <if test="quizNum != null "> and quiz_num = #{quizNum}</if>
+        </where>
+    </select>
+
+    <select id="selectQuizActivityByQuizActivityId" parameterType="Long" resultMap="QuizActivityQuestionResult">
+        select a.quiz_activity_id, a.creator_id, a.title, a.time_limit, a.discription, a.total_points, a.state, a.start_time, a.end_time, a.acceptance_line, a.quiz_num,
+ b.question_id as sub_question_id, b.content as sub_content, b.question_score as sub_question_score, b.correct_answer as sub_correct_answer, b.options as sub_options, b.quiz_activity_id as sub_quiz_activity_id, b.question_type as sub_question_type
+        from qas_quiz_activity a
+        left join qas_question b on b.quiz_activity_id = a.quiz_activity_id
+        where a.quiz_activity_id = #{quizActivityId}
+    </select>
+
+    <insert id="insertQuizActivity" parameterType="QuizActivity">
+        insert into qas_quiz_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="quizActivityId != null">quiz_activity_id,</if>
+            <if test="creatorId != null">creator_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="timeLimit != null">time_limit,</if>
+            <if test="discription != null and discription != ''">discription,</if>
+            <if test="totalPoints != null">total_points,</if>
+            <if test="state != null and state != ''">state,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="acceptanceLine != null">acceptance_line,</if>
+            <if test="quizNum != null">quiz_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="quizActivityId != null">#{quizActivityId},</if>
+            <if test="creatorId != null">#{creatorId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="timeLimit != null">#{timeLimit},</if>
+            <if test="discription != null and discription != ''">#{discription},</if>
+            <if test="totalPoints != null">#{totalPoints},</if>
+            <if test="state != null and state != ''">#{state},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="acceptanceLine != null">#{acceptanceLine},</if>
+            <if test="quizNum != null">#{quizNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQuizActivity" parameterType="QuizActivity">
+        update qas_quiz_activity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="creatorId != null">creator_id = #{creatorId},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="timeLimit != null">time_limit = #{timeLimit},</if>
+            <if test="discription != null and discription != ''">discription = #{discription},</if>
+            <if test="totalPoints != null">total_points = #{totalPoints},</if>
+            <if test="state != null and state != ''">state = #{state},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="acceptanceLine != null">acceptance_line = #{acceptanceLine},</if>
+            <if test="quizNum != null">quiz_num = #{quizNum},</if>
+        </trim>
+        where quiz_activity_id = #{quizActivityId}
+    </update>
+
+    <delete id="deleteQuizActivityByQuizActivityId" parameterType="Long">
+        delete from qas_quiz_activity where quiz_activity_id = #{quizActivityId}
+    </delete>
+
+    <delete id="deleteQuizActivityByQuizActivityIds" parameterType="String">
+        delete from qas_quiz_activity where quiz_activity_id in
+        <foreach item="quizActivityId" collection="array" open="(" separator="," close=")">
+            #{quizActivityId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteQuestionByQuizActivityIds" parameterType="String">
+        delete from qas_question where quiz_activity_id in
+        <foreach item="quizActivityId" collection="array" open="(" separator="," close=")">
+            #{quizActivityId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteQuestionByQuizActivityId" parameterType="Long">
+        delete from qas_question where quiz_activity_id = #{quizActivityId}
+    </delete>
+
+    <insert id="batchQuestion">
+        insert into qas_question( question_id, content, question_score, correct_answer, options, quiz_activity_id, question_type) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.questionId}, #{item.content}, #{item.questionScore}, #{item.correctAnswer}, #{item.options}, #{item.quizActivityId}, #{item.questionType})
+        </foreach>
+    </insert>
+</mapper>

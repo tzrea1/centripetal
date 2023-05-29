@@ -1,0 +1,2 @@
+Application Version: ${centripetal.version}
+Spring Boot Version: ${spring-boot.version}

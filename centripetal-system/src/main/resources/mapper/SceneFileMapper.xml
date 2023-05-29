@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyboys.system.mapper.SceneFileMapper">
+    
+    <resultMap type="SceneFile" id="SceneFileResult">
+        <result property="scenefileId"    column="scenefile_id"    />
+        <result property="sceneId"    column="scene_id"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="fileType"    column="file_type"    />
+    </resultMap>
+
+    <sql id="selectSceneFileVo">
+        select scenefile_id, scene_id, file_url, file_name, file_size, file_type from ses_scene_file
+    </sql>
+
+    <select id="selectSceneFileList" parameterType="SceneFile" resultMap="SceneFileResult">
+        <include refid="selectSceneFileVo"/>
+        <where>  
+            <if test="sceneId != null "> and scene_id = #{sceneId}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileSize != null "> and file_size = #{fileSize}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+        </where>
+    </select>
+    
+    <select id="selectSceneFileByScenefileId" parameterType="Long" resultMap="SceneFileResult">
+        <include refid="selectSceneFileVo"/>
+        where scenefile_id = #{scenefileId}
+    </select>
+        
+    <insert id="insertSceneFile" parameterType="SceneFile">
+        insert into ses_scene_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scenefileId != null">scenefile_id,</if>
+            <if test="sceneId != null">scene_id,</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="fileType != null and fileType != ''">file_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scenefileId != null">#{scenefileId},</if>
+            <if test="sceneId != null">#{sceneId},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="fileType != null and fileType != ''">#{fileType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSceneFile" parameterType="SceneFile">
+        update ses_scene_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sceneId != null">scene_id = #{sceneId},</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+        </trim>
+        where scenefile_id = #{scenefileId}
+    </update>
+
+    <delete id="deleteSceneFileByScenefileId" parameterType="Long">
+        delete from ses_scene_file where scenefile_id = #{scenefileId}
+    </delete>
+
+    <delete id="deleteSceneFileByScenefileIds" parameterType="String">
+        delete from ses_scene_file where scenefile_id in 
+        <foreach item="scenefileId" collection="array" open="(" separator="," close=")">
+            #{scenefileId}
+        </foreach>
+    </delete>
+</mapper>

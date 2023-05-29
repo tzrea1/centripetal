@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joyboys.system.mapper.UserMapper">
+    
+    <resultMap type="User" id="UserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="realname"    column="realname"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="phone"    column="phone"    />
+        <result property="groupId"    column="group_id"    />
+    </resultMap>
+
+    <sql id="selectUserVo">
+        select user_id, realname, username, password, nickname, phone, group_id from lrs_user
+    </sql>
+
+    <select id="selectUserList" parameterType="User" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        <where>  
+            <if test="realname != null  and realname != ''"> and realname like concat('%', #{realname}, '%')</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="groupId != null "> and group_id = #{groupId}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserByUserId" parameterType="Long" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <select id="checkUserNameUnique" parameterType="String" resultMap="UserResult">
+        select user_id, username from lrs_user where username = #{username} and del_flag = '0' limit 1
+    </select>
+
+    <select id="selectUserByUserName" parameterType="String" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        where username = #{username}
+    </select>
+        
+    <insert id="insertUser" parameterType="User">
+        insert into lrs_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="realname != null and realname != ''">realname,</if>
+            <if test="username != null and username != ''">username,</if>
+            <if test="password != null and password != ''">password,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="groupId != null">group_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="realname != null and realname != ''">#{realname},</if>
+            <if test="username != null and username != ''">#{username},</if>
+            <if test="password != null and password != ''">#{password},</if>
+            <if test="nickname != null">#{nickname},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="groupId != null">#{groupId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        update lrs_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="realname != null and realname != ''">realname = #{realname},</if>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="groupId != null">group_id = #{groupId},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserByUserId" parameterType="Long">
+        delete from lrs_user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserByUserIds" parameterType="String">
+        delete from lrs_user where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>
