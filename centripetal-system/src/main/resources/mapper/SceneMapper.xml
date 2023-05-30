@@ -34,14 +34,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertScene" parameterType="Scene">
         insert into ses_scene
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="sceneId != null">scene_id,</if>
             <if test="scenename != null and scenename != ''">scenename,</if>
             <if test="discription != null">discription,</if>
             <if test="theme != null and theme != ''">theme,</if>
             <if test="prepicUrl != null and prepicUrl != ''">prepic_url,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="sceneId != null">#{sceneId},</if>
             <if test="scenename != null and scenename != ''">#{scenename},</if>
             <if test="discription != null">#{discription},</if>
             <if test="theme != null and theme != ''">#{theme},</if>

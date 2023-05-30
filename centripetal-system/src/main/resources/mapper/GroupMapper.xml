@@ -33,13 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertGroup" parameterType="Group">
         insert into gms_group
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="groupId != null">group_id,</if>
             <if test="creatorId != null">creator_id,</if>
             <if test="description != null">description,</if>
             <if test="groupname != null and groupname != ''">groupname,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="groupId != null">#{groupId},</if>
             <if test="creatorId != null">#{creatorId},</if>
             <if test="description != null">#{description},</if>
             <if test="groupname != null and groupname != ''">#{groupname},</if>

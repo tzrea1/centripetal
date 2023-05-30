@@ -63,7 +63,6 @@ public class RoleServiceImpl implements IRoleService
             {
                 if (role.getRoleId().longValue() == userRole.getRoleId().longValue())
                 {
-                    role.setFlag(true);
                     break;
                 }
             }
