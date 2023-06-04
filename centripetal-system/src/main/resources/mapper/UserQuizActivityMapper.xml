@@ -31,9 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <select id="selectUserQuizActivityByUserId" parameterType="Long" resultMap="UserQuizActivityResult">
+    <select id="selectUserQuizActivityByUserId" resultMap="UserQuizActivityResult">
         <include refid="selectUserQuizActivityVo"/>
-        where user_id = #{userId}
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="quizActivityId != null "> and quiz_activity_id = #{quizActivityId}</if>
+        </where>
     </select>
 
     <insert id="insertUserQuizActivity" parameterType="UserQuizActivity">
@@ -68,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="activityState != null">activity_state = #{activityState},</if>
             <if test="isPassed != null">is_passed = #{isPassed},</if>
         </trim>
-        where user_id = #{userId}
+        where user_id = #{userId} and quiz_activity_id = #{quizActivityId}
     </update>
 
     <delete id="deleteUserQuizActivityByUserId" parameterType="Long">
@@ -76,9 +79,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteUserQuizActivityByUserIds" parameterType="String">
-        delete from qas_user_quiz_activity where user_id in
-        <foreach item="userId" collection="array" open="(" separator="," close=")">
-            #{userId}
+        delete from qas_user_quiz_activity where
+        <foreach item="item" collection="list" separator="or">
+            (user_id = #{item.userId} and quiz_activity_id = #{item.quizActivityId})
         </foreach>
     </delete>
 </mapper>

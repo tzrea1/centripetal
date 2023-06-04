@@ -2,6 +2,8 @@ package com.joyboys.admin.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.joyboys.system.domain.AuditorPhStudy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,10 +72,10 @@ public class UserPhStudyController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:content-rec:query')")
     @ApiOperation(value = "获取user用户参与党史内容学习的关系详细信息")
-    @GetMapping(value = "/{phStudyId}")
-    public AjaxResult getInfo(@PathVariable("phStudyId") Long phStudyId)
+    @GetMapping
+    public AjaxResult getInfo(UserPhStudy userPhStudy)
     {
-        return success(userPhStudyService.selectUserPhStudyByPhStudyId(phStudyId));
+        return success(userPhStudyService.selectUserPhStudyByPhStudyId(userPhStudy));
     }
 
     /**
@@ -106,9 +108,9 @@ public class UserPhStudyController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:content-rec:remove')")
     @Log(title = "user用户参与党史内容学习的关系", businessType = BusinessType.DELETE)
     @ApiOperation(value = "删除user用户参与党史内容学习的关系")
-	@DeleteMapping("/{phStudyIds}")
-    public AjaxResult remove(@PathVariable Long[] phStudyIds)
+    @DeleteMapping
+    public AjaxResult remove(@RequestBody List<UserPhStudy>userPhStudy)
     {
-        return toAjax(userPhStudyService.deleteUserPhStudyByPhStudyIds(phStudyIds));
+        return toAjax(userPhStudyService.deleteUserPhStudyByPhStudyIds(userPhStudy));
     }
 }

@@ -2,6 +2,9 @@ package com.joyboys.admin.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.joyboys.system.domain.AuditorPhStudy;
+import com.joyboys.system.domain.AuditorQuizAcitvity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,10 +73,10 @@ public class UserQuizActivityController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:contest-rec:query')")
     @ApiOperation(value = "获取user用户参与答题活动的关系详细信息")
-    @GetMapping(value = "/{userId}")
-    public AjaxResult getInfo(@PathVariable("userId") Long userId)
+    @GetMapping
+    public AjaxResult getInfo(UserQuizActivity userQuizActivity)
     {
-        return success(userQuizActivityService.selectUserQuizActivityByUserId(userId));
+        return success(userQuizActivityService.selectUserQuizActivityByUserId(userQuizActivity));
     }
 
     /**
@@ -106,9 +109,9 @@ public class UserQuizActivityController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:contest-rec:remove')")
     @Log(title = "user用户参与答题活动的关系", businessType = BusinessType.DELETE)
     @ApiOperation(value = "删除user用户参与答题活动的关系")
-	@DeleteMapping("/{userIds}")
-    public AjaxResult remove(@PathVariable Long[] userIds)
+	@DeleteMapping
+    public AjaxResult remove(@RequestBody List<UserQuizActivity> userQuizActivity)
     {
-        return toAjax(userQuizActivityService.deleteUserQuizActivityByUserIds(userIds));
+        return toAjax(userQuizActivityService.deleteUserQuizActivityByUserIds(userQuizActivity));
     }
 }

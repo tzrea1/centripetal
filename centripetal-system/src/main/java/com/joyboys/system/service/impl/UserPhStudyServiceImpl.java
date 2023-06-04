@@ -26,9 +26,9 @@ public class UserPhStudyServiceImpl implements IUserPhStudyService
      * @return user用户参与党史内容学习的关系
      */
     @Override
-    public UserPhStudy selectUserPhStudyByPhStudyId(Long phStudyId)
+    public UserPhStudy selectUserPhStudyByPhStudyId(UserPhStudy userPhStudy)
     {
-        return userPhStudyMapper.selectUserPhStudyByPhStudyId(phStudyId);
+        return userPhStudyMapper.selectUserPhStudyByPhStudyId(userPhStudy);
     }
 
     /**
@@ -74,9 +74,9 @@ public class UserPhStudyServiceImpl implements IUserPhStudyService
      * @return 结果
      */
     @Override
-    public int deleteUserPhStudyByPhStudyIds(Long[] phStudyIds)
+    public int deleteUserPhStudyByPhStudyIds(List<UserPhStudy>userPhStudy)
     {
-        return userPhStudyMapper.deleteUserPhStudyByPhStudyIds(phStudyIds);
+        return userPhStudyMapper.deleteUserPhStudyByPhStudyIds(userPhStudy);
     }
 
     /**

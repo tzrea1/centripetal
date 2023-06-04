@@ -17,7 +17,7 @@ public interface IUserQuizActivityService
      * @param userId user用户参与答题活动的关系主键
      * @return user用户参与答题活动的关系
      */
-    public UserQuizActivity selectUserQuizActivityByUserId(Long userId);
+    public UserQuizActivity selectUserQuizActivityByUserId(UserQuizActivity userQuizActivity);
 
     /**
      * 查询user用户参与答题活动的关系列表
@@ -49,7 +49,7 @@ public interface IUserQuizActivityService
      * @param userIds 需要删除的user用户参与答题活动的关系主键集合
      * @return 结果
      */
-    public int deleteUserQuizActivityByUserIds(Long[] userIds);
+    public int deleteUserQuizActivityByUserIds(List<UserQuizActivity> userQuizActivity);
 
     /**
      * 删除user用户参与答题活动的关系信息

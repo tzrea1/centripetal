@@ -26,9 +26,9 @@ public class UserQuizActivityServiceImpl implements IUserQuizActivityService
      * @return user用户参与答题活动的关系
      */
     @Override
-    public UserQuizActivity selectUserQuizActivityByUserId(Long userId)
+    public UserQuizActivity selectUserQuizActivityByUserId(UserQuizActivity userQuizActivity)
     {
-        return userQuizActivityMapper.selectUserQuizActivityByUserId(userId);
+        return userQuizActivityMapper.selectUserQuizActivityByUserId(userQuizActivity);
     }
 
     /**
@@ -74,9 +74,9 @@ public class UserQuizActivityServiceImpl implements IUserQuizActivityService
      * @return 结果
      */
     @Override
-    public int deleteUserQuizActivityByUserIds(Long[] userIds)
+    public int deleteUserQuizActivityByUserIds(List<UserQuizActivity> userQuizActivity)
     {
-        return userQuizActivityMapper.deleteUserQuizActivityByUserIds(userIds);
+        return userQuizActivityMapper.deleteUserQuizActivityByUserIds(userQuizActivity);
     }
 
     /**

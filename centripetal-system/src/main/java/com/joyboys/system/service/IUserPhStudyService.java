@@ -17,7 +17,7 @@ public interface IUserPhStudyService
      * @param phStudyId user用户参与党史内容学习的关系主键
      * @return user用户参与党史内容学习的关系
      */
-    public UserPhStudy selectUserPhStudyByPhStudyId(Long phStudyId);
+    public UserPhStudy selectUserPhStudyByPhStudyId(UserPhStudy userPhStudy);
 
     /**
      * 查询user用户参与党史内容学习的关系列表
@@ -49,7 +49,7 @@ public interface IUserPhStudyService
      * @param phStudyIds 需要删除的user用户参与党史内容学习的关系主键集合
      * @return 结果
      */
-    public int deleteUserPhStudyByPhStudyIds(Long[] phStudyIds);
+    public int deleteUserPhStudyByPhStudyIds(List<UserPhStudy>userPhStudy);
 
     /**
      * 删除user用户参与党史内容学习的关系信息

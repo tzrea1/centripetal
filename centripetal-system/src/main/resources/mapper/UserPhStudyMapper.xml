@@ -21,9 +21,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <select id="selectUserPhStudyByPhStudyId" parameterType="Long" resultMap="UserPhStudyResult">
+    <select id="selectUserPhStudyByPhStudyId" resultMap="UserPhStudyResult">
         <include refid="selectUserPhStudyVo"/>
-        where ph_study_id = #{phStudyId}
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="phStudyId != null "> and ph_study_id = #{phStudyId}</if>
+        </where>
     </select>
 
     <insert id="insertUserPhStudy" parameterType="UserPhStudy">
@@ -43,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
         </trim>
-        where ph_study_id = #{phStudyId}
+        where ph_study_id = #{phStudyId} and user_id = #{userId}
     </update>
 
     <delete id="deleteUserPhStudyByPhStudyId" parameterType="Long">
@@ -51,9 +54,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteUserPhStudyByPhStudyIds" parameterType="String">
-        delete from cls_user_ph_study where ph_study_id in
-        <foreach item="phStudyId" collection="array" open="(" separator="," close=")">
-            #{phStudyId}
+        delete from cls_user_ph_study where
+        <foreach item="item" collection="list" separator="or">
+            (user_id = #{item.userId} and ph_study_id = #{item.phStudyId})
         </foreach>
     </delete>
 </mapper>
