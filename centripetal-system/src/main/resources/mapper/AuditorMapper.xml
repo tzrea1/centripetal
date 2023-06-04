@@ -34,14 +34,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertAuditor" parameterType="Auditor">
         insert into auditor
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="auditorId != null">auditor_id,</if>
             <if test="realname != null and realname != ''">realname,</if>
             <if test="nickname != null and nickname != ''">nickname,</if>
             <if test="password != null and password != ''">password,</if>
             <if test="phone != null and phone != ''">phone,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="auditorId != null">#{auditorId},</if>
             <if test="realname != null and realname != ''">#{realname},</if>
             <if test="nickname != null and nickname != ''">#{nickname},</if>
             <if test="password != null and password != ''">#{password},</if>

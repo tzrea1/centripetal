@@ -71,21 +71,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="selectRoleVo"/>
 		 where r.role_key=#{roleKey} limit 1
 	</select>
-	
- 	<insert id="insertRole" parameterType="Role" useGeneratedKeys="true" keyProperty="roleId">
- 		insert into rms_role(
- 			<if test="roleId != null and roleId != 0">role_id,</if>
- 			<if test="roleName != null and roleName != ''">role_name,</if>
- 			<if test="roleKey != null and roleKey != ''">role_key,</if>
- 			<if test="status != null and status != ''">status,</if>
- 		)values(
- 			<if test="roleId != null and roleId != 0">#{roleId},</if>
- 			<if test="roleName != null and roleName != ''">#{roleName},</if>
- 			<if test="roleKey != null and roleKey != ''">#{roleKey},</if>
- 			<if test="status != null and status != ''">#{status},</if>
- 		)
+
+	<insert id="insertRole" parameterType="Role" useGeneratedKeys="true" keyProperty="roleId">
+		<trim prefix="insert into rms_role(" suffixOverrides="," suffix=")">
+			<if test="roleName != null and roleName != ''">role_name,</if>
+			<if test="roleKey != null and roleKey != ''">role_key,</if>
+			<if test="status != null and status != ''">status,</if>
+		</trim>
+		values
+		<trim prefix="(" suffixOverrides="," suffix=")">
+			<if test="roleName != null and roleName != ''">#{roleName},</if>
+			<if test="roleKey != null and roleKey != ''">#{roleKey},</if>
+			<if test="status != null and status != ''">#{status},</if>
+		</trim>
 	</insert>
-	
+
+
 	<update id="updateRole" parameterType="Role">
  		update rms_role
  		<set>

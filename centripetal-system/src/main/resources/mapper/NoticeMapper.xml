@@ -33,13 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertNotice" parameterType="Notice">
         insert into gms_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="noticeId != null">notice_id,</if>
             <if test="userId != null">user_id,</if>
             <if test="content != null and content != ''">content,</if>
             <if test="publishTime != null">publish_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="noticeId != null">#{noticeId},</if>
             <if test="userId != null">#{userId},</if>
             <if test="content != null and content != ''">#{content},</if>
             <if test="publishTime != null">#{publishTime},</if>

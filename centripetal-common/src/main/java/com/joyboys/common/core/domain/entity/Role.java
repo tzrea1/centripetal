@@ -35,11 +35,6 @@ public class Role extends BaseEntity
     @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
-    /** 用户是否存在此角色标识 默认不存在 */
-    private boolean flag = false;
-
-    /** 角色菜单权限 */
-    private Set<String> permissions;
 
     public Role()
     {
@@ -103,26 +98,6 @@ public class Role extends BaseEntity
     public void setStatus(String status)
     {
         this.status = status;
-    }
-
-    public boolean isFlag()
-    {
-        return flag;
-    }
-
-    public void setFlag(boolean flag)
-    {
-        this.flag = flag;
-    }
-
-    public Set<String> getPermissions()
-    {
-        return permissions;
-    }
-
-    public void setPermissions(Set<String> permissions)
-    {
-        this.permissions = permissions;
     }
 
     @Override
