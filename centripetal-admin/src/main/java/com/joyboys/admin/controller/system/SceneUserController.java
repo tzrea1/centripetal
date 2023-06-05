@@ -2,6 +2,8 @@ package com.joyboys.admin.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.joyboys.system.domain.AuditorPhStudy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,9 +98,9 @@ public class SceneUserController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:user:remove')")
     @Log(title = "用户虚拟场景间体验关系", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{userIds}")
-    public AjaxResult remove(@PathVariable Long[] userIds)
+	@DeleteMapping
+    public AjaxResult remove(@RequestBody List<SceneUser> sceneUser)
     {
-        return toAjax(sceneUserService.deleteSceneUserByUserIds(userIds));
+        return toAjax(sceneUserService.deleteSceneUserByUserIds(sceneUser));
     }
 }

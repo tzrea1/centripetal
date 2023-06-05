@@ -74,9 +74,9 @@ public class SceneUserServiceImpl implements ISceneUserService
      * @return 结果
      */
     @Override
-    public int deleteSceneUserByUserIds(Long[] userIds)
+    public int deleteSceneUserByUserIds(List<SceneUser> sceneUser)
     {
-        return sceneUserMapper.deleteSceneUserByUserIds(userIds);
+        return sceneUserMapper.deleteSceneUserByUserIds(sceneUser);
     }
 
     /**

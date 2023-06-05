@@ -64,9 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteSceneUserByUserIds" parameterType="String">
-        delete from ses_scene_user where user_id in 
-        <foreach item="userId" collection="array" open="(" separator="," close=")">
-            #{userId}
+        delete from ses_scene_user where
+        <foreach item="item" collection="list" separator="or">
+            (user_id = #{item.userId} and scene_id = #{item.sceneId})
         </foreach>
     </delete>
 </mapper>
