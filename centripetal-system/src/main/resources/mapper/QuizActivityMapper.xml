@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.quiz_activity_id = #{quizActivityId}
     </select>
 
-    <insert id="insertQuizActivity" parameterType="QuizActivity">
+    <insert id="insertQuizActivity" parameterType="QuizActivity" useGeneratedKeys="true" keyProperty="quizActivityId">
         insert into qas_quiz_activity
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="creatorId != null">creator_id,</if>
@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endTime != null">end_time,</if>
             <if test="acceptanceLine != null">acceptance_line,</if>
             <if test="quizNum != null">quiz_num,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="creatorId != null">#{creatorId},</if>
             <if test="title != null and title != ''">#{title},</if>
@@ -85,8 +85,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endTime != null">#{endTime},</if>
             <if test="acceptanceLine != null">#{acceptanceLine},</if>
             <if test="quizNum != null">#{quizNum},</if>
-         </trim>
+        </trim>
     </insert>
+
 
     <update id="updateQuizActivity" parameterType="QuizActivity">
         update qas_quiz_activity
