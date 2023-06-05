@@ -49,7 +49,7 @@ public interface ISceneUserService
      * @param userIds 需要删除的用户虚拟场景间体验关系主键集合
      * @return 结果
      */
-    public int deleteSceneUserByUserIds(Long[] userIds);
+    public int deleteSceneUserByUserIds(List<SceneUser> sceneUser);
 
     /**
      * 删除用户虚拟场景间体验关系信息

@@ -57,5 +57,5 @@ public interface SceneUserMapper
      * @param userIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteSceneUserByUserIds(Long[] userIds);
+    public int deleteSceneUserByUserIds(List<SceneUser> sceneUser);
 }
