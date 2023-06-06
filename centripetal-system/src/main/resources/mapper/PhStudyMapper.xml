@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.ph_study_id = #{phStudyId}
     </select>
 
-    <insert id="insertPhStudy" parameterType="PhStudy" useGeneratedKeys="true" keyProperty="quizActivityId">
+    <insert id="insertPhStudy" parameterType="PhStudy" useGeneratedKeys="true" keyProperty="phStudyId">
         insert into cls_ph_study
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="creatorId != null">creator_id,</if>
