@@ -28,6 +28,10 @@ public class Notice extends BaseEntity
     @Excel(name = "通知内容")
     private String content;
 
+    /** 通知标题 */
+    @Excel(name = "通知内容")
+    private String title;
+
     /** 发布时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "发布时间", width = 30, dateFormat = "yyyy-MM-dd")
@@ -69,6 +73,14 @@ public class Notice extends BaseEntity
     {
         return publishTime;
     }
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+    public String getTitle()
+    {
+        return title;
+    }
 
     @Override
     public String toString() {
@@ -77,6 +89,7 @@ public class Notice extends BaseEntity
             .append("userId", getUserId())
             .append("content", getContent())
             .append("publishTime", getPublishTime())
+            .append("title", getTitle())
             .toString();
     }
 }

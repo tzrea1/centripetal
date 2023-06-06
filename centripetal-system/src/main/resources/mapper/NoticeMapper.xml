@@ -9,10 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId"    column="user_id"    />
         <result property="content"    column="content"    />
         <result property="publishTime"    column="publish_time"    />
+        <result property="title"    column="title"    />
     </resultMap>
 
     <sql id="selectNoticeVo">
-        select notice_id, user_id, content, publish_time from gms_notice
+        select notice_id, user_id, content, publish_time,title from gms_notice
     </sql>
 
     <select id="selectNoticeList" parameterType="Notice" resultMap="NoticeResult">
@@ -22,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="publishTime != null "> and DATE(publish_time) = #{publishTime}</if>
+            <if test="title != null "> and title = #{title}</if>
         </where>
     </select>
     
@@ -36,11 +38,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">user_id,</if>
             <if test="content != null and content != ''">content,</if>
             <if test="publishTime != null">publish_time,</if>
+            <if test="title != null and title != ''">title,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="content != null and content != ''">#{content},</if>
             <if test="publishTime != null">#{publishTime},</if>
+            <if test="title != null and title != ''">#{title},</if>
          </trim>
     </insert>
 
@@ -50,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">user_id = #{userId},</if>
             <if test="content != null and content != ''">content = #{content},</if>
             <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
         </trim>
         where notice_id = #{noticeId}
     </update>
