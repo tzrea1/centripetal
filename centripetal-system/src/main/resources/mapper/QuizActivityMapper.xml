@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="creatorId"    column="creator_id"    />
         <result property="title"    column="title"    />
         <result property="timeLimit"    column="time_limit"    />
-        <result property="discription"    column="discription"    />
+        <result property="description"    column="description"    />
         <result property="totalPoints"    column="total_points"    />
         <result property="state"    column="state"    />
         <result property="startTime"    column="start_time"    />
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectQuizActivityVo">
-        select quiz_activity_id, creator_id, title, time_limit, discription, total_points, state, start_time, end_time, acceptance_line, quiz_num from qas_quiz_activity
+        select quiz_activity_id, creator_id, title, time_limit, description, total_points, state, start_time, end_time, acceptance_line, quiz_num from qas_quiz_activity
     </sql>
 
     <select id="selectQuizActivityList" parameterType="QuizActivity" resultMap="QuizActivityResult">
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creatorId != null "> and creator_id = #{creatorId}</if>
             <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="timeLimit != null "> and time_limit = #{timeLimit}</if>
-            <if test="discription != null  and discription != ''"> and discription = #{discription}</if>
+            <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
             <if test="totalPoints != null "> and total_points = #{totalPoints}</if>
             <if test="state != null  and state != ''"> and state = #{state}</if>
             <if test="startTime != null "> and DATE(start_time) = #{startTime}</if>
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectQuizActivityByQuizActivityId" parameterType="Long" resultMap="QuizActivityQuestionResult">
-        select a.quiz_activity_id, a.creator_id, a.title, a.time_limit, a.discription, a.total_points, a.state, a.start_time, a.end_time, a.acceptance_line, a.quiz_num,
+        select a.quiz_activity_id, a.creator_id, a.title, a.time_limit, a.description, a.total_points, a.state, a.start_time, a.end_time, a.acceptance_line, a.quiz_num,
  b.question_id as sub_question_id, b.content as sub_content, b.question_score as sub_question_score, b.correct_answer as sub_correct_answer, b.options as sub_options, b.quiz_activity_id as sub_quiz_activity_id, b.question_type as sub_question_type
         from qas_quiz_activity a
         left join qas_question b on b.quiz_activity_id = a.quiz_activity_id
@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creatorId != null">creator_id,</if>
             <if test="title != null and title != ''">title,</if>
             <if test="timeLimit != null">time_limit,</if>
-            <if test="discription != null and discription != ''">discription,</if>
+            <if test="description != null and description != ''">description,</if>
             <if test="totalPoints != null">total_points,</if>
             <if test="state != null and state != ''">state,</if>
             <if test="startTime != null">start_time,</if>
@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creatorId != null">#{creatorId},</if>
             <if test="title != null and title != ''">#{title},</if>
             <if test="timeLimit != null">#{timeLimit},</if>
-            <if test="discription != null and discription != ''">#{discription},</if>
+            <if test="description != null and description != ''">#{description},</if>
             <if test="totalPoints != null">#{totalPoints},</if>
             <if test="state != null and state != ''">#{state},</if>
             <if test="startTime != null">#{startTime},</if>
@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creatorId != null">creator_id = #{creatorId},</if>
             <if test="title != null and title != ''">title = #{title},</if>
             <if test="timeLimit != null">time_limit = #{timeLimit},</if>
-            <if test="discription != null and discription != ''">discription = #{discription},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
             <if test="totalPoints != null">total_points = #{totalPoints},</if>
             <if test="state != null and state != ''">state = #{state},</if>
             <if test="startTime != null">start_time = #{startTime},</if>

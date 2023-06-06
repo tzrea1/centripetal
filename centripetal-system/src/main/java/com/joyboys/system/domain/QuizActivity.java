@@ -35,7 +35,7 @@ public class QuizActivity extends BaseEntity
 
     /** 答题活动描述 */
     @Excel(name = "答题活动描述")
-    private String discription;
+    private String description;
 
     /** 总分值 */
     @Excel(name = "总分值")
@@ -102,14 +102,14 @@ public class QuizActivity extends BaseEntity
     {
         return timeLimit;
     }
-    public void setDiscription(String discription) 
+    public void setDescription(String description)
     {
-        this.discription = discription;
+        this.description = description;
     }
 
-    public String getDiscription() 
+    public String getDescription()
     {
-        return discription;
+        return description;
     }
     public void setTotalPoints(Integer totalPoints) 
     {
@@ -183,7 +183,7 @@ public class QuizActivity extends BaseEntity
             .append("creatorId", getCreatorId())
             .append("title", getTitle())
             .append("timeLimit", getTimeLimit())
-            .append("discription", getDiscription())
+            .append("description", getDescription())
             .append("totalPoints", getTotalPoints())
             .append("state", getState())
             .append("startTime", getStartTime())
