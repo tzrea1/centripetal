@@ -88,4 +88,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{userId}
         </foreach>
     </delete>
+
+    <update id="updateUserGroupIds">
+        update lrs_user
+        <set>
+            group_id = #{groupId}
+        </set>
+        where user_id in
+        <foreach item="item" collection="userIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

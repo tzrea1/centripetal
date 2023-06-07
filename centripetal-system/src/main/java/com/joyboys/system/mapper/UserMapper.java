@@ -3,6 +3,9 @@ package com.joyboys.system.mapper;
 import java.util.List;
 import com.joyboys.common.core.domain.entity.User;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * 用户Mapper接口
  * 
@@ -78,5 +81,13 @@ public interface UserMapper
     public int deleteUserByUserIds(Long[] userIds);
 
 
+    /**
+     * 批量更新用户的groupId
+     *
+     * @param userIds 用户主键列表
+     * @param groupId 组主键
+     * @return 结果
+     */
+    public int updateUserGroupIds(Map<String, Object> params);
 
 }

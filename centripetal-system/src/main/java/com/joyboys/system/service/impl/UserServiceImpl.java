@@ -10,6 +10,9 @@ import com.joyboys.system.mapper.UserMapper;
 import com.joyboys.common.core.domain.entity.User;
 import com.joyboys.system.service.IUserService;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * 用户Service业务层处理
  * 
@@ -134,5 +137,16 @@ public class UserServiceImpl implements IUserService
     public int deleteUserByUserId(Long userId)
     {
         return userMapper.deleteUserByUserId(userId);
+    }
+
+    /**批量更新groupId
+     *
+     * @param userIds
+     * @param groupId
+     * @return
+     */
+    @Override
+    public int updateUserGroupIds(Map<String, Object> params) {
+        return userMapper.updateUserGroupIds(params);
     }
 }

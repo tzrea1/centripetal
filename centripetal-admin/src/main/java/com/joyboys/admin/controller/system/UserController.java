@@ -24,6 +24,9 @@ import com.joyboys.common.core.page.TableDataInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * 用户Controller
  * 
@@ -110,5 +113,16 @@ public class UserController extends BaseController
     public AjaxResult remove(@PathVariable Long[] userIds)
     {
         return toAjax(userService.deleteUserByUserIds(userIds));
+    }
+
+    @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @ApiOperation(value = "批量更新用户组")
+    @PutMapping("/group/{groupId}")
+    public AjaxResult updateUserGroupIds(@RequestBody List<Long> userIds, @PathVariable Long groupId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userIds", userIds);
+        params.put("groupId", groupId);
+        int rows = userService.updateUserGroupIds(params);
+        return rows > 0 ? success() : error("修改失败");
     }
 }

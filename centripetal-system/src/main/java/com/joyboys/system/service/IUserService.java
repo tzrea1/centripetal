@@ -3,6 +3,9 @@ package com.joyboys.system.service;
 import java.util.List;
 import com.joyboys.common.core.domain.entity.User;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * 用户Service接口
  * 
@@ -85,4 +88,6 @@ public interface IUserService
      * @return 结果
      */
     public int deleteUserByUserId(Long userId);
+
+    public int updateUserGroupIds(Map<String, Object> params);
 }
