@@ -1,114 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joyboys.system.mapper.PhStudyMapper">
-    
-    <resultMap type="PhStudy" id="PhStudyResult">
-        <result property="phStudyId"    column="ph_study_id"    />
-        <result property="creatorId"    column="creator_id"    />
-        <result property="title"    column="title"    />
-        <result property="description"    column="description"    />
-        <result property="state"    column="state"    />
-        <result property="prepicUrl"    column="prepic_url"    />
-        <result property="contentUrl"    column="content_url"    />
-    </resultMap>
 
-    <resultMap id="PhStudyPhStudyFileResult" type="PhStudy" extends="PhStudyResult">
-        <collection property="phStudyFileList" notNullColumn="sub_studyfile_id" javaType="java.util.List" resultMap="PhStudyFileResult" />
-    </resultMap>
+  <delete id="deletePhStudyByPhStudyId" parameterType="Long">
+    delete
+    from cls_ph_study
+    where ph_study_id = #{phStudyId}
+  </delete>
 
-    <resultMap type="PhStudyFile" id="PhStudyFileResult">
-        <result property="studyfileId"    column="sub_studyfile_id"    />
-        <result property="phStudyId"    column="sub_ph_study_id"    />
-        <result property="fileUrl"    column="sub_file_url"    />
-        <result property="fileName"    column="sub_file_name"    />
-        <result property="fileType"    column="sub_file_type"    />
-    </resultMap>
+  <delete id="deletePhStudyByPhStudyIds" parameterType="String">
+    delete from cls_ph_study where ph_study_id in
+    <foreach close=")" collection="array" item="phStudyId" open="(" separator=",">
+      #{phStudyId}
+    </foreach>
+  </delete>
 
-    <sql id="selectPhStudyVo">
-        select ph_study_id, creator_id, title, description, state, prepic_url, content_url from cls_ph_study
-    </sql>
+  <delete id="deletePhStudyFileByPhStudyIds" parameterType="String">
+    delete from cls_ph_study_file where ph_study_id in
+    <foreach close=")" collection="array" item="phStudyId" open="(" separator=",">
+      #{phStudyId}
+    </foreach>
+  </delete>
 
-    <select id="selectPhStudyList" parameterType="PhStudy" resultMap="PhStudyResult">
-        <include refid="selectPhStudyVo"/>
-        <where>
-            <if test="creatorId != null "> and creator_id = #{creatorId}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="description != null  and description != ''"> and description = #{description}</if>
-            <if test="state != null  and state != ''"> and state = #{state}</if>
-            <if test="prepicUrl != null  and prepicUrl != ''"> and prepic_url = #{prepicUrl}</if>
-            <if test="contentUrl != null  and contentUrl != ''"> and content_url = #{contentUrl}</if>
-        </where>
-    </select>
+  <delete id="deletePhStudyFileByPhStudyId" parameterType="Long">
+    delete
+    from cls_ph_study_file
+    where ph_study_id = #{phStudyId}
+  </delete>
 
-    <select id="selectPhStudyByPhStudyId" parameterType="Long" resultMap="PhStudyPhStudyFileResult">
-        select a.ph_study_id, a.creator_id, a.title, a.description, a.state, a.prepic_url, a.content_url,
- b.studyfile_id as sub_studyfile_id, b.ph_study_id as sub_ph_study_id, b.file_url as sub_file_url, b.file_name as sub_file_name, b.file_type as sub_file_type
-        from cls_ph_study a
-        left join cls_ph_study_file b on b.ph_study_id = a.ph_study_id
-        where a.ph_study_id = #{phStudyId}
-    </select>
+  <insert id="insertPhStudy" keyProperty="phStudyId" parameterType="PhStudy"
+    useGeneratedKeys="true">
+    insert into cls_ph_study
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="creatorId != null">creator_id,</if>
+      <if test="title != null and title != ''">title,</if>
+      <if test="description != null">description,</if>
+      <if test="state != null and state != ''">state,</if>
+      <if test="prepicUrl != null">prepic_url,</if>
+      <if test="contentUrl != null">content_url,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="creatorId != null">#{creatorId},</if>
+      <if test="title != null and title != ''">#{title},</if>
+      <if test="description != null">#{description},</if>
+      <if test="state != null and state != ''">#{state},</if>
+      <if test="prepicUrl != null">#{prepicUrl},</if>
+      <if test="contentUrl != null">#{contentUrl},</if>
+    </trim>
+  </insert>
 
-    <insert id="insertPhStudy" parameterType="PhStudy" useGeneratedKeys="true" keyProperty="phStudyId">
-        insert into cls_ph_study
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="creatorId != null">creator_id,</if>
-            <if test="title != null and title != ''">title,</if>
-            <if test="description != null">description,</if>
-            <if test="state != null and state != ''">state,</if>
-            <if test="prepicUrl != null">prepic_url,</if>
-            <if test="contentUrl != null">content_url,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="creatorId != null">#{creatorId},</if>
-            <if test="title != null and title != ''">#{title},</if>
-            <if test="description != null">#{description},</if>
-            <if test="state != null and state != ''">#{state},</if>
-            <if test="prepicUrl != null">#{prepicUrl},</if>
-            <if test="contentUrl != null">#{contentUrl},</if>
-         </trim>
-    </insert>
+  <insert id="batchPhStudyFile">
+    insert into cls_ph_study_file( studyfile_id, ph_study_id, file_url, file_name, file_type) values
+    <foreach collection="list" index="index" item="item" separator=",">
+      ( #{item.studyfileId}, #{item.phStudyId}, #{item.fileUrl}, #{item.fileName}, #{item.fileType})
+    </foreach>
+  </insert>
 
-    <update id="updatePhStudy" parameterType="PhStudy">
-        update cls_ph_study
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="creatorId != null">creator_id = #{creatorId},</if>
-            <if test="title != null and title != ''">title = #{title},</if>
-            <if test="description != null">description = #{description},</if>
-            <if test="state != null and state != ''">state = #{state},</if>
-            <if test="prepicUrl != null">prepic_url = #{prepicUrl},</if>
-            <if test="contentUrl != null">content_url = #{contentUrl},</if>
-        </trim>
-        where ph_study_id = #{phStudyId}
-    </update>
+  <resultMap id="PhStudyResult" type="PhStudy">
+    <result column="ph_study_id" property="phStudyId"/>
+    <result column="creator_id" property="creatorId"/>
+    <result column="title" property="title"/>
+    <result column="description" property="description"/>
+    <result column="state" property="state"/>
+    <result column="prepic_url" property="prepicUrl"/>
+    <result column="content_url" property="contentUrl"/>
+  </resultMap>
 
-    <delete id="deletePhStudyByPhStudyId" parameterType="Long">
-        delete from cls_ph_study where ph_study_id = #{phStudyId}
-    </delete>
+  <resultMap extends="PhStudyResult" id="PhStudyPhStudyFileResult" type="PhStudy">
+    <collection javaType="java.util.List" notNullColumn="sub_studyfile_id"
+      property="phStudyFileList" resultMap="PhStudyFileResult"/>
+  </resultMap>
 
-    <delete id="deletePhStudyByPhStudyIds" parameterType="String">
-        delete from cls_ph_study where ph_study_id in
-        <foreach item="phStudyId" collection="array" open="(" separator="," close=")">
-            #{phStudyId}
-        </foreach>
-    </delete>
+  <resultMap id="PhStudyFileResult" type="PhStudyFile">
+    <result column="sub_studyfile_id" property="studyfileId"/>
+    <result column="sub_ph_study_id" property="phStudyId"/>
+    <result column="sub_file_url" property="fileUrl"/>
+    <result column="sub_file_name" property="fileName"/>
+    <result column="sub_file_type" property="fileType"/>
+  </resultMap>
 
-    <delete id="deletePhStudyFileByPhStudyIds" parameterType="String">
-        delete from cls_ph_study_file where ph_study_id in
-        <foreach item="phStudyId" collection="array" open="(" separator="," close=")">
-            #{phStudyId}
-        </foreach>
-    </delete>
+  <select id="selectPhStudyList" parameterType="PhStudy" resultMap="PhStudyResult">
+    <include refid="selectPhStudyVo"/>
+    <where>
+      <if test="creatorId != null ">and creator_id = #{creatorId}</if>
+      <if test="title != null  and title != ''">and title = #{title}</if>
+      <if test="description != null  and description != ''">and description = #{description}</if>
+      <if test="state != null  and state != ''">and state = #{state}</if>
+      <if test="prepicUrl != null  and prepicUrl != ''">and prepic_url = #{prepicUrl}</if>
+      <if test="contentUrl != null  and contentUrl != ''">and content_url = #{contentUrl}</if>
+    </where>
+  </select>
 
-    <delete id="deletePhStudyFileByPhStudyId" parameterType="Long">
-        delete from cls_ph_study_file where ph_study_id = #{phStudyId}
-    </delete>
+  <select id="selectPhStudyByPhStudyId" parameterType="Long" resultMap="PhStudyPhStudyFileResult">
+    select a.ph_study_id,
+           a.creator_id,
+           a.title,
+           a.description,
+           a.state,
+           a.prepic_url,
+           a.content_url,
+           b.studyfile_id as sub_studyfile_id,
+           b.ph_study_id  as sub_ph_study_id,
+           b.file_url     as sub_file_url,
+           b.file_name    as sub_file_name,
+           b.file_type    as sub_file_type
+    from cls_ph_study a
+           left join cls_ph_study_file b on b.ph_study_id = a.ph_study_id
+    where a.ph_study_id = #{phStudyId}
+  </select>
 
-    <insert id="batchPhStudyFile">
-        insert into cls_ph_study_file( studyfile_id, ph_study_id, file_url, file_name, file_type) values
-		<foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.studyfileId}, #{item.phStudyId}, #{item.fileUrl}, #{item.fileName}, #{item.fileType})
-        </foreach>
-    </insert>
+  <sql id="selectPhStudyVo">
+    select ph_study_id, creator_id, title, description, state, prepic_url, content_url
+    from cls_ph_study
+  </sql>
+
+  <update id="updatePhStudy" parameterType="PhStudy">
+    update cls_ph_study
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="creatorId != null">creator_id = #{creatorId},</if>
+      <if test="title != null and title != ''">title = #{title},</if>
+      <if test="description != null">description = #{description},</if>
+      <if test="state != null and state != ''">state = #{state},</if>
+      <if test="prepicUrl != null">prepic_url = #{prepicUrl},</if>
+      <if test="contentUrl != null">content_url = #{contentUrl},</if>
+    </trim>
+    where ph_study_id = #{phStudyId}
+  </update>
 </mapper>

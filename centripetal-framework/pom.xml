@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>centripetal</artifactId>
-        <groupId>com.joyboys</groupId>
-        <version>1.0.0</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>centripetal-framework</artifactId>
+  <dependencies>
 
-    <artifactId>centripetal-framework</artifactId>
+    <!-- 防止进入swagger页面报类型转换错误，排除3.0.0中的引用，手动增加1.6.2版本 -->
+    <dependency>
+      <artifactId>swagger-models</artifactId>
+      <groupId>io.swagger</groupId>
+      <version>1.6.2</version>
+    </dependency>
 
-    <description>
-        framework框架核心
-    </description>
+    <!-- SpringBoot Web容器 -->
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
 
-    <dependencies>
+    <!-- SpringBoot 拦截器 -->
+    <dependency>
+      <artifactId>spring-boot-starter-aop</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
 
-        <!-- 防止进入swagger页面报类型转换错误，排除3.0.0中的引用，手动增加1.6.2版本 -->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        
-        <!-- SpringBoot Web容器 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+    <!-- 阿里数据库连接池 -->
+    <dependency>
+      <artifactId>druid-spring-boot-starter</artifactId>
+      <groupId>com.alibaba</groupId>
+    </dependency>
 
-        <!-- SpringBoot 拦截器 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+    <!-- 验证码 -->
+    <dependency>
+      <artifactId>kaptcha</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>javax.servlet-api</artifactId>
+          <groupId>javax.servlet</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>pro.fessional</groupId>
+    </dependency>
 
-        <!-- 阿里数据库连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
+    <!-- 获取系统信息 -->
+    <dependency>
+      <artifactId>oshi-core</artifactId>
+      <groupId>com.github.oshi</groupId>
+    </dependency>
 
-        <!-- 验证码 -->
-        <dependency>
-            <groupId>pro.fessional</groupId>
-            <artifactId>kaptcha</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javax.servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <dependency>
+      <artifactId>javax.annotation-api</artifactId>
+      <groupId>javax.annotation</groupId>
+      <version>1.3.2</version>
+    </dependency>
 
-        <!-- 获取系统信息 -->
-        <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core</artifactId>
-        </dependency>
+    <!-- 系统模块-->
+    <dependency>
+      <artifactId>centripetal-system</artifactId>
+      <groupId>com.joyboys</groupId>
+    </dependency>
 
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
-        </dependency>
+    <!-- OSS SDK 相关依赖 -->
+    <dependency>
+      <artifactId>aliyun-sdk-oss</artifactId>
+      <groupId>com.aliyun.oss</groupId>
+      <version>2.5.0</version>
+    </dependency>
 
-        <!-- 系统模块-->
-        <dependency>
-            <groupId>com.joyboys</groupId>
-            <artifactId>centripetal-system</artifactId>
-        </dependency>
+    <!-- 简化对象封装工具 -->
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>hutool-all</artifactId>
+      <groupId>cn.hutool</groupId>
+      <version>5.8.15</version>
+    </dependency>
 
-        <!-- OSS SDK 相关依赖 -->
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>2.5.0</version>
-        </dependency>
+  </dependencies>
 
-        <!-- 简化对象封装工具 -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.8.15</version>
-        </dependency>
+  <description>
+    framework框架核心
+  </description>
 
-    </dependencies>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>centripetal</artifactId>
+    <groupId>com.joyboys</groupId>
+    <version>1.0.0</version>
+  </parent>
 
 
 </project>

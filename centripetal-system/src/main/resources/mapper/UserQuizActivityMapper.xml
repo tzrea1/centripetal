@@ -1,87 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joyboys.system.mapper.UserQuizActivityMapper">
-    
-    <resultMap type="UserQuizActivity" id="UserQuizActivityResult">
-        <result property="userId"    column="user_id"    />
-        <result property="quizActivityId"    column="quiz_activity_id"    />
-        <result property="gotScores"    column="got_scores"    />
-        <result property="startTime"    column="start_time"    />
-        <result property="endTime"    column="end_time"    />
-        <result property="activityState"    column="activity_state"    />
-        <result property="isPassed"    column="is_passed"    />
-    </resultMap>
 
-    <sql id="selectUserQuizActivityVo">
-        select user_id, quiz_activity_id, got_scores, start_time, end_time, activity_state, is_passed from qas_user_quiz_activity
-    </sql>
+  <delete id="deleteUserQuizActivityByUserId" parameterType="Long">
+    delete
+    from qas_user_quiz_activity
+    where user_id = #{userId}
+  </delete>
 
-    <select id="selectUserQuizActivityList" parameterType="UserQuizActivity" resultMap="UserQuizActivityResult">
-        <include refid="selectUserQuizActivityVo"/>
-        <where>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="quizActivityId != null "> and quiz_activity_id = #{quizActivityId}</if>
-            <if test="gotScores != null "> and got_scores = #{gotScores}</if>
-            <if test="startTime != null "> and start_time = #{startTime}</if>
-            <if test="endTime != null "> and end_time = #{endTime}</if>
-            <if test="activityState != null  and activityState != ''"> and activity_state = #{activityState}</if>
-            <if test="isPassed != null  and isPassed != ''"> and is_passed = #{isPassed}</if>
-        </where>
-    </select>
+  <delete id="deleteUserQuizActivityByUserIds" parameterType="String">
+    delete from qas_user_quiz_activity where
+    <foreach collection="list" item="item" separator="or">
+      (user_id = #{item.userId} and quiz_activity_id = #{item.quizActivityId})
+    </foreach>
+  </delete>
 
-    <select id="selectUserQuizActivityByUserId" resultMap="UserQuizActivityResult">
-        <include refid="selectUserQuizActivityVo"/>
-        <where>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="quizActivityId != null "> and quiz_activity_id = #{quizActivityId}</if>
-        </where>
-    </select>
+  <insert id="insertUserQuizActivity" parameterType="UserQuizActivity">
+    insert into qas_user_quiz_activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">user_id,</if>
+      <if test="quizActivityId != null">quiz_activity_id,</if>
+      <if test="gotScores != null">got_scores,</if>
+      <if test="startTime != null">start_time,</if>
+      <if test="endTime != null">end_time,</if>
+      <if test="activityState != null">activity_state,</if>
+      <if test="isPassed != null">is_passed,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">#{userId},</if>
+      <if test="quizActivityId != null">#{quizActivityId},</if>
+      <if test="gotScores != null">#{gotScores},</if>
+      <if test="startTime != null">#{startTime},</if>
+      <if test="endTime != null">#{endTime},</if>
+      <if test="activityState != null">#{activityState},</if>
+      <if test="isPassed != null">#{isPassed},</if>
+    </trim>
+  </insert>
 
-    <insert id="insertUserQuizActivity" parameterType="UserQuizActivity">
-        insert into qas_user_quiz_activity
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">user_id,</if>
-            <if test="quizActivityId != null">quiz_activity_id,</if>
-            <if test="gotScores != null">got_scores,</if>
-            <if test="startTime != null">start_time,</if>
-            <if test="endTime != null">end_time,</if>
-            <if test="activityState != null">activity_state,</if>
-            <if test="isPassed != null">is_passed,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">#{userId},</if>
-            <if test="quizActivityId != null">#{quizActivityId},</if>
-            <if test="gotScores != null">#{gotScores},</if>
-            <if test="startTime != null">#{startTime},</if>
-            <if test="endTime != null">#{endTime},</if>
-            <if test="activityState != null">#{activityState},</if>
-            <if test="isPassed != null">#{isPassed},</if>
-         </trim>
-    </insert>
+  <resultMap id="UserQuizActivityResult" type="UserQuizActivity">
+    <result column="user_id" property="userId"/>
+    <result column="quiz_activity_id" property="quizActivityId"/>
+    <result column="got_scores" property="gotScores"/>
+    <result column="start_time" property="startTime"/>
+    <result column="end_time" property="endTime"/>
+    <result column="activity_state" property="activityState"/>
+    <result column="is_passed" property="isPassed"/>
+  </resultMap>
 
-    <update id="updateUserQuizActivity" parameterType="UserQuizActivity">
-        update qas_user_quiz_activity
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="quizActivityId != null">quiz_activity_id = #{quizActivityId},</if>
-            <if test="gotScores != null">got_scores = #{gotScores},</if>
-            <if test="startTime != null">start_time = #{startTime},</if>
-            <if test="endTime != null">end_time = #{endTime},</if>
-            <if test="activityState != null">activity_state = #{activityState},</if>
-            <if test="isPassed != null">is_passed = #{isPassed},</if>
-        </trim>
-        where user_id = #{userId} and quiz_activity_id = #{quizActivityId}
-    </update>
+  <select id="selectUserQuizActivityByUserId" resultMap="UserQuizActivityResult">
+    <include refid="selectUserQuizActivityVo"/>
+    <where>
+      <if test="userId != null ">and user_id = #{userId}</if>
+      <if test="quizActivityId != null ">and quiz_activity_id = #{quizActivityId}</if>
+    </where>
+  </select>
 
-    <delete id="deleteUserQuizActivityByUserId" parameterType="Long">
-        delete from qas_user_quiz_activity where user_id = #{userId}
-    </delete>
+  <select id="selectUserQuizActivityList" parameterType="UserQuizActivity"
+    resultMap="UserQuizActivityResult">
+    <include refid="selectUserQuizActivityVo"/>
+    <where>
+      <if test="userId != null ">and user_id = #{userId}</if>
+      <if test="quizActivityId != null ">and quiz_activity_id = #{quizActivityId}</if>
+      <if test="gotScores != null ">and got_scores = #{gotScores}</if>
+      <if test="startTime != null ">and start_time = #{startTime}</if>
+      <if test="endTime != null ">and end_time = #{endTime}</if>
+      <if test="activityState != null  and activityState != ''">and activity_state =
+        #{activityState}
+      </if>
+      <if test="isPassed != null  and isPassed != ''">and is_passed = #{isPassed}</if>
+    </where>
+  </select>
 
-    <delete id="deleteUserQuizActivityByUserIds" parameterType="String">
-        delete from qas_user_quiz_activity where
-        <foreach item="item" collection="list" separator="or">
-            (user_id = #{item.userId} and quiz_activity_id = #{item.quizActivityId})
-        </foreach>
-    </delete>
+  <sql id="selectUserQuizActivityVo">
+    select user_id, quiz_activity_id, got_scores, start_time, end_time, activity_state, is_passed
+    from qas_user_quiz_activity
+  </sql>
+
+  <update id="updateUserQuizActivity" parameterType="UserQuizActivity">
+    update qas_user_quiz_activity
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="quizActivityId != null">quiz_activity_id = #{quizActivityId},</if>
+      <if test="gotScores != null">got_scores = #{gotScores},</if>
+      <if test="startTime != null">start_time = #{startTime},</if>
+      <if test="endTime != null">end_time = #{endTime},</if>
+      <if test="activityState != null">activity_state = #{activityState},</if>
+      <if test="isPassed != null">is_passed = #{isPassed},</if>
+    </trim>
+    where user_id = #{userId} and quiz_activity_id = #{quizActivityId}
+  </update>
 </mapper>

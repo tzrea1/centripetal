@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joyboys.system.mapper.NoticeMapper">
-    
-    <resultMap type="Notice" id="NoticeResult">
-        <result property="noticeId"    column="notice_id"    />
-        <result property="userId"    column="user_id"    />
-        <result property="content"    column="content"    />
-        <result property="publishTime"    column="publish_time"    />
-        <result property="title"    column="title"    />
-    </resultMap>
 
-    <sql id="selectNoticeVo">
-        select notice_id, user_id, content, publish_time,title from gms_notice
-    </sql>
+  <delete id="deleteNoticeByNoticeId" parameterType="Long">
+    delete
+    from gms_notice
+    where notice_id = #{noticeId}
+  </delete>
 
-    <select id="selectNoticeList" parameterType="Notice" resultMap="NoticeResult">
-        <include refid="selectNoticeVo"/>
-        <where>
-            <if test="noticeId != null "> and notice_id = #{noticeId}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
-            <if test="publishTime != null "> and DATE(publish_time) = #{publishTime}</if>
-            <if test="title != null "> and title = #{title}</if>
-        </where>
-    </select>
-    
-    <select id="selectNoticeByNoticeId" parameterType="Long" resultMap="NoticeResult">
-        <include refid="selectNoticeVo"/>
-        where notice_id = #{noticeId}
-    </select>
-        
-    <insert id="insertNotice" parameterType="Notice">
-        insert into gms_notice
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">user_id,</if>
-            <if test="content != null and content != ''">content,</if>
-            <if test="publishTime != null">publish_time,</if>
-            <if test="title != null and title != ''">title,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">#{userId},</if>
-            <if test="content != null and content != ''">#{content},</if>
-            <if test="publishTime != null">#{publishTime},</if>
-            <if test="title != null and title != ''">#{title},</if>
-         </trim>
-    </insert>
+  <delete id="deleteNoticeByNoticeIds" parameterType="String">
+    delete from gms_notice where notice_id in
+    <foreach close=")" collection="array" item="noticeId" open="(" separator=",">
+      #{noticeId}
+    </foreach>
+  </delete>
 
-    <update id="updateNotice" parameterType="Notice">
-        update gms_notice
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="userId != null">user_id = #{userId},</if>
-            <if test="content != null and content != ''">content = #{content},</if>
-            <if test="publishTime != null">publish_time = #{publishTime},</if>
-            <if test="title != null and title != ''">title = #{title},</if>
-        </trim>
-        where notice_id = #{noticeId}
-    </update>
+  <insert id="insertNotice" parameterType="Notice">
+    insert into gms_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">user_id,</if>
+      <if test="content != null and content != ''">content,</if>
+      <if test="publishTime != null">publish_time,</if>
+      <if test="title != null and title != ''">title,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">#{userId},</if>
+      <if test="content != null and content != ''">#{content},</if>
+      <if test="publishTime != null">#{publishTime},</if>
+      <if test="title != null and title != ''">#{title},</if>
+    </trim>
+  </insert>
 
-    <delete id="deleteNoticeByNoticeId" parameterType="Long">
-        delete from gms_notice where notice_id = #{noticeId}
-    </delete>
+  <resultMap id="NoticeResult" type="Notice">
+    <result column="notice_id" property="noticeId"/>
+    <result column="user_id" property="userId"/>
+    <result column="content" property="content"/>
+    <result column="publish_time" property="publishTime"/>
+    <result column="title" property="title"/>
+  </resultMap>
 
-    <delete id="deleteNoticeByNoticeIds" parameterType="String">
-        delete from gms_notice where notice_id in
-        <foreach item="noticeId" collection="array" open="(" separator="," close=")">
-            #{noticeId}
-        </foreach>
-    </delete>
+  <select id="selectNoticeByNoticeId" parameterType="Long" resultMap="NoticeResult">
+    <include refid="selectNoticeVo"/>
+    where notice_id = #{noticeId}
+  </select>
+
+  <select id="selectNoticeList" parameterType="Notice" resultMap="NoticeResult">
+    <include refid="selectNoticeVo"/>
+    <where>
+      <if test="noticeId != null ">and notice_id = #{noticeId}</if>
+      <if test="userId != null ">and user_id = #{userId}</if>
+      <if test="content != null  and content != ''">and content = #{content}</if>
+      <if test="publishTime != null ">and DATE(publish_time) = #{publishTime}</if>
+      <if test="title != null ">and title = #{title}</if>
+    </where>
+  </select>
+
+  <sql id="selectNoticeVo">
+    select notice_id, user_id, content, publish_time, title
+    from gms_notice
+  </sql>
+
+  <update id="updateNotice" parameterType="Notice">
+    update gms_notice
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="userId != null">user_id = #{userId},</if>
+      <if test="content != null and content != ''">content = #{content},</if>
+      <if test="publishTime != null">publish_time = #{publishTime},</if>
+      <if test="title != null and title != ''">title = #{title},</if>
+    </trim>
+    where notice_id = #{noticeId}
+  </update>
 </mapper>

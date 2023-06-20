@@ -2,68 +2,60 @@ package com.joyboys.common.core.domain.model;
 
 /**
  * 用户登录对象
- * 
+ *
  * @author joyboys
  */
-public class LoginBody
-{
-    /**
-     * 用户名
-     */
-    private String username;
+public class LoginBody {
 
-    /**
-     * 用户密码
-     */
-    private String password;
+  /**
+   * 用户名
+   */
+  private String username;
 
-    /**
-     * 验证码
-     */
-    private String code;
+  /**
+   * 用户密码
+   */
+  private String password;
 
-    /**
-     * 唯一标识
-     */
-    private String uuid;
+  /**
+   * 验证码
+   */
+  private String code;
 
-    public String getUsername()
-    {
-        return username;
-    }
+  /**
+   * 唯一标识
+   */
+  private String uuid;
 
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getPassword()
-    {
-        return password;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public String getCode()
-    {
-        return code;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setCode(String code)
-    {
-        this.code = code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getUuid()
-    {
-        return uuid;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public void setUuid(String uuid)
-    {
-        this.uuid = uuid;
-    }
+  public String getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
 }

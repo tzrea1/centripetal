@@ -1,22 +1,5 @@
 package com.joyboys.framework.aspectj;
 
-import com.joyboys.common.annotation.DataScope;
-import com.joyboys.common.core.domain.BaseEntity;
-import com.joyboys.common.core.domain.entity.Role;
-import com.joyboys.common.core.domain.entity.User;
-import com.joyboys.common.core.domain.model.LoginUser;
-import com.joyboys.common.core.text.Convert;
-import com.joyboys.common.utils.SecurityUtils;
-import com.joyboys.common.utils.StringUtils;
-import com.joyboys.framework.security.context.PermissionContextHolder;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 数据过滤处理
  *

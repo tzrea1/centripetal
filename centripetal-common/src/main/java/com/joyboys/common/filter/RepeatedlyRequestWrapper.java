@@ -2,76 +2,67 @@ package com.joyboys.common.filter;
 
 import com.joyboys.common.constant.Constants;
 import com.joyboys.common.utils.http.HttpHelper;
-
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * 构建可重复读取inputStream的request
- * 
+ *
  * @author joyboys
  */
-public class RepeatedlyRequestWrapper extends HttpServletRequestWrapper
-{
-    private final byte[] body;
+public class RepeatedlyRequestWrapper extends HttpServletRequestWrapper {
 
-    public RepeatedlyRequestWrapper(HttpServletRequest request, ServletResponse response) throws IOException
-    {
-        super(request);
-        request.setCharacterEncoding(Constants.UTF8);
-        response.setCharacterEncoding(Constants.UTF8);
+  private final byte[] body;
 
-        body = HttpHelper.getBodyString(request).getBytes(Constants.UTF8);
-    }
+  public RepeatedlyRequestWrapper(HttpServletRequest request, ServletResponse response)
+      throws IOException {
+    super(request);
+    request.setCharacterEncoding(Constants.UTF8);
+    response.setCharacterEncoding(Constants.UTF8);
 
-    @Override
-    public BufferedReader getReader() throws IOException
-    {
-        return new BufferedReader(new InputStreamReader(getInputStream()));
-    }
+    body = HttpHelper.getBodyString(request).getBytes(Constants.UTF8);
+  }
 
-    @Override
-    public ServletInputStream getInputStream() throws IOException
-    {
-        final ByteArrayInputStream bais = new ByteArrayInputStream(body);
-        return new ServletInputStream()
-        {
-            @Override
-            public int read() throws IOException
-            {
-                return bais.read();
-            }
+  @Override
+  public BufferedReader getReader() throws IOException {
+    return new BufferedReader(new InputStreamReader(getInputStream()));
+  }
 
-            @Override
-            public int available() throws IOException
-            {
-                return body.length;
-            }
+  @Override
+  public ServletInputStream getInputStream() throws IOException {
+    final ByteArrayInputStream bais = new ByteArrayInputStream(body);
+    return new ServletInputStream() {
+      @Override
+      public int read() throws IOException {
+        return bais.read();
+      }
 
-            @Override
-            public boolean isFinished()
-            {
-                return false;
-            }
+      @Override
+      public int available() throws IOException {
+        return body.length;
+      }
 
-            @Override
-            public boolean isReady()
-            {
-                return false;
-            }
+      @Override
+      public boolean isFinished() {
+        return false;
+      }
 
-            @Override
-            public void setReadListener(ReadListener readListener)
-            {
+      @Override
+      public boolean isReady() {
+        return false;
+      }
 
-            }
-        };
-    }
+      @Override
+      public void setReadListener(ReadListener readListener) {
+
+      }
+    };
+  }
 }

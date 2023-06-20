@@ -4,142 +4,141 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joyboys.common.annotation.Excel;
 import com.joyboys.common.annotation.Excel.ColumnType;
 import com.joyboys.common.core.domain.BaseEntity;
-
 import java.util.Date;
 
 /**
  * 系统访问记录表 sys_logininfor
- * 
+ *
  * @author joyboys
  */
-public class SysLogininfor extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class SysLogininfor extends BaseEntity {
 
-    /** ID */
-    @Excel(name = "序号", cellType = ColumnType.NUMERIC)
-    private Long infoId;
+  private static final long serialVersionUID = 1L;
 
-    /** 用户账号 */
-    @Excel(name = "用户账号")
-    private String userName;
+  /**
+   * ID
+   */
+  @Excel(name = "序号", cellType = ColumnType.NUMERIC)
+  private Long infoId;
 
-    /** 登录状态 0成功 1失败 */
-    @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
-    private String status;
+  /**
+   * 用户账号
+   */
+  @Excel(name = "用户账号")
+  private String userName;
 
-    /** 登录IP地址 */
-    @Excel(name = "登录地址")
-    private String ipaddr;
+  /**
+   * 登录状态 0成功 1失败
+   */
+  @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
+  private String status;
 
-    /** 登录地点 */
-    @Excel(name = "登录地点")
-    private String loginLocation;
+  /**
+   * 登录IP地址
+   */
+  @Excel(name = "登录地址")
+  private String ipaddr;
 
-    /** 浏览器类型 */
-    @Excel(name = "浏览器")
-    private String browser;
+  /**
+   * 登录地点
+   */
+  @Excel(name = "登录地点")
+  private String loginLocation;
 
-    /** 操作系统 */
-    @Excel(name = "操作系统")
-    private String os;
+  /**
+   * 浏览器类型
+   */
+  @Excel(name = "浏览器")
+  private String browser;
 
-    /** 提示消息 */
-    @Excel(name = "提示消息")
-    private String msg;
+  /**
+   * 操作系统
+   */
+  @Excel(name = "操作系统")
+  private String os;
 
-    /** 访问时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
-    private Date loginTime;
+  /**
+   * 提示消息
+   */
+  @Excel(name = "提示消息")
+  private String msg;
 
-    public Long getInfoId()
-    {
-        return infoId;
-    }
+  /**
+   * 访问时间
+   */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+  private Date loginTime;
 
-    public void setInfoId(Long infoId)
-    {
-        this.infoId = infoId;
-    }
+  public Long getInfoId() {
+    return infoId;
+  }
 
-    public String getUserName()
-    {
-        return userName;
-    }
+  public void setInfoId(Long infoId) {
+    this.infoId = infoId;
+  }
 
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public String getStatus()
-    {
-        return status;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public String getIpaddr()
-    {
-        return ipaddr;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setIpaddr(String ipaddr)
-    {
-        this.ipaddr = ipaddr;
-    }
+  public String getIpaddr() {
+    return ipaddr;
+  }
 
-    public String getLoginLocation()
-    {
-        return loginLocation;
-    }
+  public void setIpaddr(String ipaddr) {
+    this.ipaddr = ipaddr;
+  }
 
-    public void setLoginLocation(String loginLocation)
-    {
-        this.loginLocation = loginLocation;
-    }
+  public String getLoginLocation() {
+    return loginLocation;
+  }
 
-    public String getBrowser()
-    {
-        return browser;
-    }
+  public void setLoginLocation(String loginLocation) {
+    this.loginLocation = loginLocation;
+  }
 
-    public void setBrowser(String browser)
-    {
-        this.browser = browser;
-    }
+  public String getBrowser() {
+    return browser;
+  }
 
-    public String getOs()
-    {
-        return os;
-    }
+  public void setBrowser(String browser) {
+    this.browser = browser;
+  }
 
-    public void setOs(String os)
-    {
-        this.os = os;
-    }
+  public String getOs() {
+    return os;
+  }
 
-    public String getMsg()
-    {
-        return msg;
-    }
+  public void setOs(String os) {
+    this.os = os;
+  }
 
-    public void setMsg(String msg)
-    {
-        this.msg = msg;
-    }
+  public String getMsg() {
+    return msg;
+  }
 
-    public Date getLoginTime()
-    {
-        return loginTime;
-    }
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
 
-    public void setLoginTime(Date loginTime)
-    {
-        this.loginTime = loginTime;
-    }
+  public Date getLoginTime() {
+    return loginTime;
+  }
+
+  public void setLoginTime(Date loginTime) {
+    this.loginTime = loginTime;
+  }
 }

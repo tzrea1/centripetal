@@ -4,25 +4,22 @@ import org.springframework.security.core.Authentication;
 
 /**
  * 身份验证信息
- * 
+ *
  * @author joyboys
  */
-public class AuthenticationContextHolder
-{
-    private static final ThreadLocal<Authentication> contextHolder = new ThreadLocal<>();
+public class AuthenticationContextHolder {
 
-    public static Authentication getContext()
-    {
-        return contextHolder.get();
-    }
+  private static final ThreadLocal<Authentication> contextHolder = new ThreadLocal<>();
 
-    public static void setContext(Authentication context)
-    {
-        contextHolder.set(context);
-    }
+  public static Authentication getContext() {
+    return contextHolder.get();
+  }
 
-    public static void clearContext()
-    {
-        contextHolder.remove();
-    }
+  public static void setContext(Authentication context) {
+    contextHolder.set(context);
+  }
+
+  public static void clearContext() {
+    contextHolder.remove();
+  }
 }

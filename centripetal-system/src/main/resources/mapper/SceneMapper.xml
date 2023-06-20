@@ -1,71 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joyboys.system.mapper.SceneMapper">
-    
-    <resultMap type="Scene" id="SceneResult">
-        <result property="sceneId"    column="scene_id"    />
-        <result property="scenename"    column="scenename"    />
-        <result property="discription"    column="discription"    />
-        <result property="theme"    column="theme"    />
-        <result property="prepicUrl"    column="prepic_url"    />
-    </resultMap>
 
-    <sql id="selectSceneVo">
-        select scene_id, scenename, discription, theme, prepic_url from ses_scene
-    </sql>
+  <delete id="deleteSceneBySceneId" parameterType="Long">
+    delete
+    from ses_scene
+    where scene_id = #{sceneId}
+  </delete>
 
-    <select id="selectSceneList" parameterType="Scene" resultMap="SceneResult">
-        <include refid="selectSceneVo"/>
-        <where>  
-            <if test="scenename != null  and scenename != ''"> and scenename like concat('%', #{scenename}, '%')</if>
-            <if test="discription != null  and discription != ''"> and discription = #{discription}</if>
-            <if test="theme != null  and theme != ''"> and theme = #{theme}</if>
-            <if test="prepicUrl != null  and prepicUrl != ''"> and prepic_url = #{prepicUrl}</if>
-        </where>
-    </select>
-    
-    <select id="selectSceneBySceneId" parameterType="Long" resultMap="SceneResult">
-        <include refid="selectSceneVo"/>
-        where scene_id = #{sceneId}
-    </select>
-        
-    <insert id="insertScene" parameterType="Scene">
-        insert into ses_scene
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="scenename != null and scenename != ''">scenename,</if>
-            <if test="discription != null">discription,</if>
-            <if test="theme != null and theme != ''">theme,</if>
-            <if test="prepicUrl != null and prepicUrl != ''">prepic_url,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="scenename != null and scenename != ''">#{scenename},</if>
-            <if test="discription != null">#{discription},</if>
-            <if test="theme != null and theme != ''">#{theme},</if>
-            <if test="prepicUrl != null and prepicUrl != ''">#{prepicUrl},</if>
-         </trim>
-    </insert>
+  <delete id="deleteSceneBySceneIds" parameterType="String">
+    delete from ses_scene where scene_id in
+    <foreach close=")" collection="array" item="sceneId" open="(" separator=",">
+      #{sceneId}
+    </foreach>
+  </delete>
 
-    <update id="updateScene" parameterType="Scene">
-        update ses_scene
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="scenename != null and scenename != ''">scenename = #{scenename},</if>
-            <if test="discription != null">discription = #{discription},</if>
-            <if test="theme != null and theme != ''">theme = #{theme},</if>
-            <if test="prepicUrl != null and prepicUrl != ''">prepic_url = #{prepicUrl},</if>
-        </trim>
-        where scene_id = #{sceneId}
-    </update>
+  <insert id="insertScene" parameterType="Scene">
+    insert into ses_scene
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="scenename != null and scenename != ''">scenename,</if>
+      <if test="discription != null">discription,</if>
+      <if test="theme != null and theme != ''">theme,</if>
+      <if test="prepicUrl != null and prepicUrl != ''">prepic_url,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="scenename != null and scenename != ''">#{scenename},</if>
+      <if test="discription != null">#{discription},</if>
+      <if test="theme != null and theme != ''">#{theme},</if>
+      <if test="prepicUrl != null and prepicUrl != ''">#{prepicUrl},</if>
+    </trim>
+  </insert>
 
-    <delete id="deleteSceneBySceneId" parameterType="Long">
-        delete from ses_scene where scene_id = #{sceneId}
-    </delete>
+  <resultMap id="SceneResult" type="Scene">
+    <result column="scene_id" property="sceneId"/>
+    <result column="scenename" property="scenename"/>
+    <result column="discription" property="discription"/>
+    <result column="theme" property="theme"/>
+    <result column="prepic_url" property="prepicUrl"/>
+  </resultMap>
 
-    <delete id="deleteSceneBySceneIds" parameterType="String">
-        delete from ses_scene where scene_id in
-        <foreach item="sceneId" collection="array" open="(" separator="," close=")">
-            #{sceneId}
-        </foreach>
-    </delete>
+  <select id="selectSceneBySceneId" parameterType="Long" resultMap="SceneResult">
+    <include refid="selectSceneVo"/>
+    where scene_id = #{sceneId}
+  </select>
+
+  <select id="selectSceneList" parameterType="Scene" resultMap="SceneResult">
+    <include refid="selectSceneVo"/>
+    <where>
+      <if test="scenename != null  and scenename != ''">and scenename like concat('%', #{scenename},
+        '%')
+      </if>
+      <if test="discription != null  and discription != ''">and discription = #{discription}</if>
+      <if test="theme != null  and theme != ''">and theme = #{theme}</if>
+      <if test="prepicUrl != null  and prepicUrl != ''">and prepic_url = #{prepicUrl}</if>
+    </where>
+  </select>
+
+  <sql id="selectSceneVo">
+    select scene_id, scenename, discription, theme, prepic_url
+    from ses_scene
+  </sql>
+
+  <update id="updateScene" parameterType="Scene">
+    update ses_scene
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="scenename != null and scenename != ''">scenename = #{scenename},</if>
+      <if test="discription != null">discription = #{discription},</if>
+      <if test="theme != null and theme != ''">theme = #{theme},</if>
+      <if test="prepicUrl != null and prepicUrl != ''">prepic_url = #{prepicUrl},</if>
+    </trim>
+    where scene_id = #{sceneId}
+  </update>
 </mapper>

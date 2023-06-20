@@ -1,28 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>centripetal</artifactId>
-        <groupId>com.joyboys</groupId>
-        <version>1.0.0</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>centripetal-system</artifactId>
+  <dependencies>
 
-    <artifactId>centripetal-system</artifactId>
+    <!-- 通用工具-->
+    <dependency>
+      <artifactId>centripetal-common</artifactId>
+      <groupId>com.joyboys</groupId>
+    </dependency>
 
-    <description>
-        system系统模块
-    </description>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.7.2</version>
+      <scope>test</scope>
+    </dependency>
 
-    <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>5.7.2</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- 通用工具-->
-        <dependency>
-            <groupId>com.joyboys</groupId>
-            <artifactId>centripetal-common</artifactId>
-        </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>3.11.2</version>
+      <scope>test</scope>
+    </dependency>
 
-    </dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-runner</artifactId>
+      <version>1.7.0</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <description>
+    system系统模块
+  </description>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>centripetal</artifactId>
+    <groupId>com.joyboys</groupId>
+    <version>1.0.0</version>
+  </parent>
 
 </project>

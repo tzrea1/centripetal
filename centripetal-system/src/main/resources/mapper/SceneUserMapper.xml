@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joyboys.system.mapper.SceneUserMapper">
-    
-    <resultMap type="SceneUser" id="SceneUserResult">
-        <result property="userId"    column="user_id"    />
-        <result property="sceneId"    column="scene_id"    />
-        <result property="explorationDegree"    column="exploration_degree"    />
-        <result property="experienceDuration"    column="experience_duration"    />
-        <result property="startTime"    column="start_time"    />
-    </resultMap>
 
-    <sql id="selectSceneUserVo">
-        select user_id, scene_id, exploration_degree, experience_duration, start_time from ses_scene_user
-    </sql>
+  <delete id="deleteSceneUserByUserId" parameterType="Long">
+    delete
+    from ses_scene_user
+    where user_id = #{userId}
+  </delete>
 
-    <select id="selectSceneUserList" parameterType="SceneUser" resultMap="SceneUserResult">
-        <include refid="selectSceneUserVo"/>
-        <where>  
-            <if test="explorationDegree != null "> and exploration_degree = #{explorationDegree}</if>
-            <if test="experienceDuration != null "> and experience_duration = #{experienceDuration}</if>
-            <if test="startTime != null "> and start_time = #{startTime}</if>
-        </where>
-    </select>
-    
-    <select id="selectSceneUserByUserId" parameterType="Long" resultMap="SceneUserResult">
-        <include refid="selectSceneUserVo"/>
-        where user_id = #{userId}
-    </select>
-        
-    <insert id="insertSceneUser" parameterType="SceneUser">
-        insert into ses_scene_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">user_id,</if>
-            <if test="sceneId != null">scene_id,</if>
-            <if test="explorationDegree != null">exploration_degree,</if>
-            <if test="experienceDuration != null">experience_duration,</if>
-            <if test="startTime != null">start_time,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">#{userId},</if>
-            <if test="sceneId != null">#{sceneId},</if>
-            <if test="explorationDegree != null">#{explorationDegree},</if>
-            <if test="experienceDuration != null">#{experienceDuration},</if>
-            <if test="startTime != null">#{startTime},</if>
-         </trim>
-    </insert>
+  <delete id="deleteSceneUserByUserIds" parameterType="String">
+    delete from ses_scene_user where
+    <foreach collection="list" item="item" separator="or">
+      (user_id = #{item.userId} and scene_id = #{item.sceneId})
+    </foreach>
+  </delete>
 
-    <update id="updateSceneUser" parameterType="SceneUser">
-        update ses_scene_user
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="sceneId != null">scene_id = #{sceneId},</if>
-            <if test="explorationDegree != null">exploration_degree = #{explorationDegree},</if>
-            <if test="experienceDuration != null">experience_duration = #{experienceDuration},</if>
-            <if test="startTime != null">start_time = #{startTime},</if>
-        </trim>
-        where user_id = #{userId}
-    </update>
+  <insert id="insertSceneUser" parameterType="SceneUser">
+    insert into ses_scene_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">user_id,</if>
+      <if test="sceneId != null">scene_id,</if>
+      <if test="explorationDegree != null">exploration_degree,</if>
+      <if test="experienceDuration != null">experience_duration,</if>
+      <if test="startTime != null">start_time,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">#{userId},</if>
+      <if test="sceneId != null">#{sceneId},</if>
+      <if test="explorationDegree != null">#{explorationDegree},</if>
+      <if test="experienceDuration != null">#{experienceDuration},</if>
+      <if test="startTime != null">#{startTime},</if>
+    </trim>
+  </insert>
 
-    <delete id="deleteSceneUserByUserId" parameterType="Long">
-        delete from ses_scene_user where user_id = #{userId}
-    </delete>
+  <resultMap id="SceneUserResult" type="SceneUser">
+    <result column="user_id" property="userId"/>
+    <result column="scene_id" property="sceneId"/>
+    <result column="exploration_degree" property="explorationDegree"/>
+    <result column="experience_duration" property="experienceDuration"/>
+    <result column="start_time" property="startTime"/>
+  </resultMap>
 
-    <delete id="deleteSceneUserByUserIds" parameterType="String">
-        delete from ses_scene_user where
-        <foreach item="item" collection="list" separator="or">
-            (user_id = #{item.userId} and scene_id = #{item.sceneId})
-        </foreach>
-    </delete>
+  <select id="selectSceneUserByUserId" parameterType="Long" resultMap="SceneUserResult">
+    <include refid="selectSceneUserVo"/>
+    where user_id = #{userId}
+  </select>
+
+  <select id="selectSceneUserList" parameterType="SceneUser" resultMap="SceneUserResult">
+    <include refid="selectSceneUserVo"/>
+    <where>
+      <if test="explorationDegree != null ">and exploration_degree = #{explorationDegree}</if>
+      <if test="experienceDuration != null ">and experience_duration = #{experienceDuration}</if>
+      <if test="startTime != null ">and start_time = #{startTime}</if>
+    </where>
+  </select>
+
+  <sql id="selectSceneUserVo">
+    select user_id, scene_id, exploration_degree, experience_duration, start_time
+    from ses_scene_user
+  </sql>
+
+  <update id="updateSceneUser" parameterType="SceneUser">
+    update ses_scene_user
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="sceneId != null">scene_id = #{sceneId},</if>
+      <if test="explorationDegree != null">exploration_degree = #{explorationDegree},</if>
+      <if test="experienceDuration != null">experience_duration = #{experienceDuration},</if>
+      <if test="startTime != null">start_time = #{startTime},</if>
+    </trim>
+    where user_id = #{userId}
+  </update>
 </mapper>

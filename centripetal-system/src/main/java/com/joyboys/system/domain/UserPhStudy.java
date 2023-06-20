@@ -1,50 +1,50 @@
 package com.joyboys.system.domain;
 
+import com.joyboys.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.joyboys.common.annotation.Excel;
-import com.joyboys.common.core.domain.BaseEntity;
 
 /**
  * user用户参与党史内容学习的关系对象 user_ph_study
- * 
+ *
  * @author joyboys
  * @date 2023-05-08
  */
-public class UserPhStudy extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class UserPhStudy extends BaseEntity {
 
-    /** 党史内容学习活动ID */
-    private Long phStudyId;
+  private static final long serialVersionUID = 1L;
 
-    /** 用户ID */
-    private Long userId;
+  /**
+   * 党史内容学习活动ID
+   */
+  private Long phStudyId;
 
-    public void setPhStudyId(Long phStudyId) 
-    {
-        this.phStudyId = phStudyId;
-    }
+  /**
+   * 用户ID
+   */
+  private Long userId;
 
-    public Long getPhStudyId() 
-    {
-        return phStudyId;
-    }
-    public void setUserId(Long userId) 
-    {
-        this.userId = userId;
-    }
+  public Long getPhStudyId() {
+    return phStudyId;
+  }
 
-    public Long getUserId() 
-    {
-        return userId;
-    }
+  public void setPhStudyId(Long phStudyId) {
+    this.phStudyId = phStudyId;
+  }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("phStudyId", getPhStudyId())
-            .append("userId", getUserId())
-            .toString();
-    }
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+        .append("phStudyId", getPhStudyId())
+        .append("userId", getUserId())
+        .toString();
+  }
 }

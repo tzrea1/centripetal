@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joyboys.system.mapper.GroupMapper">
-    
-    <resultMap type="Group" id="GroupResult">
-        <result property="groupId"    column="group_id"    />
-        <result property="creatorId"    column="creator_id"    />
-        <result property="description"    column="description"    />
-        <result property="groupname"    column="groupname"    />
-    </resultMap>
 
-    <sql id="selectGroupVo">
-        select group_id, creator_id, description, groupname from gms_group
-    </sql>
+  <delete id="deleteGroupByGroupId" parameterType="Long">
+    delete
+    from gms_group
+    where group_id = #{groupId}
+  </delete>
 
-    <select id="selectGroupList" parameterType="Group" resultMap="GroupResult">
-        <include refid="selectGroupVo"/>
-        <where>
-            <if test="groupId != null "> and group_id = #{groupId}</if>
-            <if test="creatorId != null "> and creator_id = #{creatorId}</if>
-            <if test="description != null  and description != ''"> and description = #{description}</if>
-            <if test="groupname != null  and groupname != ''"> and groupname like concat('%', #{groupname}, '%')</if>
-        </where>
-    </select>
-    
-    <select id="selectGroupByGroupId" parameterType="Long" resultMap="GroupResult">
-        <include refid="selectGroupVo"/>
-        where group_id = #{groupId}
-    </select>
-        
-    <insert id="insertGroup" parameterType="Group">
-        insert into gms_group
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="creatorId != null">creator_id,</if>
-            <if test="description != null">description,</if>
-            <if test="groupname != null and groupname != ''">groupname,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="creatorId != null">#{creatorId},</if>
-            <if test="description != null">#{description},</if>
-            <if test="groupname != null and groupname != ''">#{groupname},</if>
-         </trim>
-    </insert>
+  <delete id="deleteGroupByGroupIds" parameterType="String">
+    delete from gms_group where group_id in
+    <foreach close=")" collection="array" item="groupId" open="(" separator=",">
+      #{groupId}
+    </foreach>
+  </delete>
 
-    <update id="updateGroup" parameterType="Group">
-        update gms_group
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="creatorId != null">creator_id = #{creatorId},</if>
-            <if test="description != null">description = #{description},</if>
-            <if test="groupname != null and groupname != ''">groupname = #{groupname},</if>
-        </trim>
-        where group_id = #{groupId}
-    </update>
+  <insert id="insertGroup" parameterType="Group">
+    insert into gms_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="creatorId != null">creator_id,</if>
+      <if test="description != null">description,</if>
+      <if test="groupname != null and groupname != ''">groupname,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="creatorId != null">#{creatorId},</if>
+      <if test="description != null">#{description},</if>
+      <if test="groupname != null and groupname != ''">#{groupname},</if>
+    </trim>
+  </insert>
 
-    <delete id="deleteGroupByGroupId" parameterType="Long">
-        delete from gms_group where group_id = #{groupId}
-    </delete>
+  <resultMap id="GroupResult" type="Group">
+    <result column="group_id" property="groupId"/>
+    <result column="creator_id" property="creatorId"/>
+    <result column="description" property="description"/>
+    <result column="groupname" property="groupname"/>
+  </resultMap>
 
-    <delete id="deleteGroupByGroupIds" parameterType="String">
-        delete from gms_group where group_id in
-        <foreach item="groupId" collection="array" open="(" separator="," close=")">
-            #{groupId}
-        </foreach>
-    </delete>
+  <select id="selectGroupByGroupId" parameterType="Long" resultMap="GroupResult">
+    <include refid="selectGroupVo"/>
+    where group_id = #{groupId}
+  </select>
+
+  <select id="selectGroupList" parameterType="Group" resultMap="GroupResult">
+    <include refid="selectGroupVo"/>
+    <where>
+      <if test="groupId != null ">and group_id = #{groupId}</if>
+      <if test="creatorId != null ">and creator_id = #{creatorId}</if>
+      <if test="description != null  and description != ''">and description = #{description}</if>
+      <if test="groupname != null  and groupname != ''">and groupname like concat('%', #{groupname},
+        '%')
+      </if>
+    </where>
+  </select>
+
+  <sql id="selectGroupVo">
+    select group_id, creator_id, description, groupname
+    from gms_group
+  </sql>
+
+  <update id="updateGroup" parameterType="Group">
+    update gms_group
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="creatorId != null">creator_id = #{creatorId},</if>
+      <if test="description != null">description = #{description},</if>
+      <if test="groupname != null and groupname != ''">groupname = #{groupname},</if>
+    </trim>
+    where group_id = #{groupId}
+  </update>
 </mapper>

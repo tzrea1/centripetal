@@ -5,75 +5,75 @@ import java.util.List;
 
 /**
  * Tree基类
- * 
+ *
  * @author joyboys
  */
-public class TreeEntity extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class TreeEntity extends BaseEntity {
 
-    /** 父菜单名称 */
-    private String parentName;
+  private static final long serialVersionUID = 1L;
 
-    /** 父菜单ID */
-    private Long parentId;
+  /**
+   * 父菜单名称
+   */
+  private String parentName;
 
-    /** 显示顺序 */
-    private Integer orderNum;
+  /**
+   * 父菜单ID
+   */
+  private Long parentId;
 
-    /** 祖级列表 */
-    private String ancestors;
+  /**
+   * 显示顺序
+   */
+  private Integer orderNum;
 
-    /** 子部门 */
-    private List<?> children = new ArrayList<>();
+  /**
+   * 祖级列表
+   */
+  private String ancestors;
 
-    public String getParentName()
-    {
-        return parentName;
-    }
+  /**
+   * 子部门
+   */
+  private List<?> children = new ArrayList<>();
 
-    public void setParentName(String parentName)
-    {
-        this.parentName = parentName;
-    }
+  public String getParentName() {
+    return parentName;
+  }
 
-    public Long getParentId()
-    {
-        return parentId;
-    }
+  public void setParentName(String parentName) {
+    this.parentName = parentName;
+  }
 
-    public void setParentId(Long parentId)
-    {
-        this.parentId = parentId;
-    }
+  public Long getParentId() {
+    return parentId;
+  }
 
-    public Integer getOrderNum()
-    {
-        return orderNum;
-    }
+  public void setParentId(Long parentId) {
+    this.parentId = parentId;
+  }
 
-    public void setOrderNum(Integer orderNum)
-    {
-        this.orderNum = orderNum;
-    }
+  public Integer getOrderNum() {
+    return orderNum;
+  }
 
-    public String getAncestors()
-    {
-        return ancestors;
-    }
+  public void setOrderNum(Integer orderNum) {
+    this.orderNum = orderNum;
+  }
 
-    public void setAncestors(String ancestors)
-    {
-        this.ancestors = ancestors;
-    }
+  public String getAncestors() {
+    return ancestors;
+  }
 
-    public List<?> getChildren()
-    {
-        return children;
-    }
+  public void setAncestors(String ancestors) {
+    this.ancestors = ancestors;
+  }
 
-    public void setChildren(List<?> children)
-    {
-        this.children = children;
-    }
+  public List<?> getChildren() {
+    return children;
+  }
+
+  public void setChildren(List<?> children) {
+    this.children = children;
+  }
 }

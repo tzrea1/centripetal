@@ -2,57 +2,51 @@ package com.joyboys.common.exception;
 
 /**
  * 全局异常
- * 
+ *
  * @author joyboys
  */
-public class GlobalException extends RuntimeException
-{
-    private static final long serialVersionUID = 1L;
+public class GlobalException extends RuntimeException {
 
-    /**
-     * 错误提示
-     */
-    private String message;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * 错误明细，内部调试错误
-     *
-     * 和 {@link CommonResult#getDetailMessage()} 一致的设计
-     */
-    private String detailMessage;
+  /**
+   * 错误提示
+   */
+  private String message;
 
-    /**
-     * 空构造方法，避免反序列化问题
-     */
-    public GlobalException()
-    {
-    }
+  /**
+   * 错误明细，内部调试错误
+   * <p>
+   * 和 {@link CommonResult#getDetailMessage()} 一致的设计
+   */
+  private String detailMessage;
 
-    public GlobalException(String message)
-    {
-        this.message = message;
-    }
+  /**
+   * 空构造方法，避免反序列化问题
+   */
+  public GlobalException() {
+  }
 
-    public String getDetailMessage()
-    {
-        return detailMessage;
-    }
+  public GlobalException(String message) {
+    this.message = message;
+  }
 
-    public GlobalException setDetailMessage(String detailMessage)
-    {
-        this.detailMessage = detailMessage;
-        return this;
-    }
+  public String getDetailMessage() {
+    return detailMessage;
+  }
 
-    @Override
-    public String getMessage()
-    {
-        return message;
-    }
+  public GlobalException setDetailMessage(String detailMessage) {
+    this.detailMessage = detailMessage;
+    return this;
+  }
 
-    public GlobalException setMessage(String message)
-    {
-        this.message = message;
-        return this;
-    }
+  @Override
+  public String getMessage() {
+    return message;
+  }
+
+  public GlobalException setMessage(String message) {
+    this.message = message;
+    return this;
+  }
 }

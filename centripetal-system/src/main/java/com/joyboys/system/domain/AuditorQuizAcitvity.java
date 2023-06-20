@@ -1,67 +1,69 @@
 package com.joyboys.system.domain;
 
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.joyboys.common.annotation.Excel;
 import com.joyboys.common.core.domain.BaseEntity;
+import java.util.Date;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 审核员审核答题活动的记录对象 auditor_quiz_acitvity
- * 
+ *
  * @author joyboys
  * @date 2023-05-08
  */
-public class AuditorQuizAcitvity extends BaseEntity
-{
-    private static final long serialVersionUID = 1L;
+public class AuditorQuizAcitvity extends BaseEntity {
 
-    /** 审核员id */
-    private Long auditorId;
+  private static final long serialVersionUID = 1L;
 
-    /** 答题活动id */
-    private Long quizActivityId;
+  /**
+   * 审核员id
+   */
+  private Long auditorId;
 
-    /** 审核时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "审核时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date auditTime;
+  /**
+   * 答题活动id
+   */
+  private Long quizActivityId;
 
-    public void setAuditorId(Long auditorId) 
-    {
-        this.auditorId = auditorId;
-    }
+  /**
+   * 审核时间
+   */
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @Excel(name = "审核时间", width = 30, dateFormat = "yyyy-MM-dd")
+  private Date auditTime;
 
-    public Long getAuditorId() 
-    {
-        return auditorId;
-    }
-    public void setQuizActivityId(Long quizActivityId) 
-    {
-        this.quizActivityId = quizActivityId;
-    }
+  public Long getAuditorId() {
+    return auditorId;
+  }
 
-    public Long getQuizActivityId() 
-    {
-        return quizActivityId;
-    }
-    public void setAuditTime(Date auditTime) 
-    {
-        this.auditTime = auditTime;
-    }
+  public void setAuditorId(Long auditorId) {
+    this.auditorId = auditorId;
+  }
 
-    public Date getAuditTime() 
-    {
-        return auditTime;
-    }
+  public Long getQuizActivityId() {
+    return quizActivityId;
+  }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("auditorId", getAuditorId())
-            .append("quizActivityId", getQuizActivityId())
-            .append("auditTime", getAuditTime())
-            .toString();
-    }
+  public void setQuizActivityId(Long quizActivityId) {
+    this.quizActivityId = quizActivityId;
+  }
+
+  public Date getAuditTime() {
+    return auditTime;
+  }
+
+  public void setAuditTime(Date auditTime) {
+    this.auditTime = auditTime;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+        .append("auditorId", getAuditorId())
+        .append("quizActivityId", getQuizActivityId())
+        .append("auditTime", getAuditTime())
+        .toString();
+  }
 }
